@@ -2,6 +2,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import AuthProvider = firebase.auth.AuthProvider;
+import { StorageService } from '../storage/storage.service';
+import { ClearStorageResponse } from '../../model/model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,10 @@ import AuthProvider = firebase.auth.AuthProvider;
 export class AuthService implements OnDestroy {
   userAuthState: any;
 
-  constructor(private angularFireAuth: AngularFireAuth) { }
+  constructor(
+    private angularFireAuth: AngularFireAuth,
+    private storage: StorageService
+    ) { }
 
   googleLogin() {
       this.login(new firebase.auth.GoogleAuthProvider(), 'Google');
@@ -114,12 +119,15 @@ export class AuthService implements OnDestroy {
   signOut() {
     const promise = new Promise((resolve, reject) => {
       this.angularFireAuth.auth.signOut().then(() => {
-        localStorage.clear();
-        const successResponse = {
-          error: false,
-          logoutStatus: true
-        };
-        resolve(successResponse);
+        this.storage.clearStorage().then((response: ClearStorageResponse) => {
+          const successResponse = {
+            error: false,
+            logoutStatus: true
+          };
+          if (!response.error) {
+            resolve(successResponse);
+          }
+        });
       }).catch((error) => {
         const errorResponse = {
           error: true,

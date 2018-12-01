@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from 'src/environments/environment';
-import { AuthService } from '../services/auth/auth.service';
+import { AuthService } from '../shared/services/auth/auth.service';
 @NgModule({
   declarations: [LoginComponent],
   imports: [
