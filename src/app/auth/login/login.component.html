@@ -1,0 +1,18 @@
+<button (click)="loginWithGoogle()">Login with Google</button><br><br>
+<button (click)="loginWithFacebook()">Login with Facebook</button><br><br>
+
+<h1>Login with email and password</h1>
+Email: <input type="email" [(ngModel)]="loginEmail"><br>
+Password: <input [(ngModel)]="loginPassword"><br>
+<button (click)="loginWithEmail()">Email Login</button><br><br>
+
+<h1>Sign with email and password</h1>
+Email: <input type="email" [(ngModel)]="signupEmail"><br>
+Password: <input [(ngModel)]="signupPassword"><br>
+<button (click)="signupWithEmail()">Email Signup</button><br><br>
+
+<h2>Forgot password?</h2><br><br>
+Email: <input type="email" [(ngModel)]="forgotPasswordEmail"><br>
+<button (click)="sendResetEmail()">Send Reset Email</button><br><br>
+
+<button (click)="signOut()">Sign Out</button>
