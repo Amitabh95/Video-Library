@@ -14,14 +14,30 @@ export class AuthService implements OnDestroy {
   constructor(
     private angularFireAuth: AngularFireAuth,
     private storage: StorageService
-    ) { }
+  ) { }
 
   googleLogin() {
-      this.login(new firebase.auth.GoogleAuthProvider(), 'Google');
+    const promise = new Promise((resolve, reject) => {
+      this.login(new firebase.auth.GoogleAuthProvider(), 'Google')
+        .then((successResonse) => {
+          resolve(successResonse);
+        }).catch((errorResponse) => {
+          reject(errorResponse);
+        });
+    });
+    return promise;
   }
 
   facebookLogin() {
-    this.login(new firebase.auth.FacebookAuthProvider(), 'Facebook');
+    const promise = new Promise((resolve, reject) => {
+      this.login(new firebase.auth.FacebookAuthProvider(), 'Facebook')
+        .then((successResonse) => {
+          resolve(successResonse);
+        }).catch((errorResponse) => {
+          reject(errorResponse);
+        });
+    });
+    return promise;
   }
 
   emailSignUp(email: string, password: string) {
@@ -46,22 +62,22 @@ export class AuthService implements OnDestroy {
   }
 
   forgotPassword(email) {
-    const promise = new Promise ((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       this.angularFireAuth.auth.sendPasswordResetEmail(email)
-      .then(() => {
-        const forgetSuccessPasswordResponse = {
-          error: false,
-          message: 'Successfully sent reset email'
-        };
-        resolve(forgetSuccessPasswordResponse);
-      })
-      .catch((error) => {
-        const forgetErrorPasswordResponse = {
-          error: true,
-          errorDetails: error
-        };
-        reject(forgetErrorPasswordResponse);
-      });
+        .then(() => {
+          const forgetSuccessPasswordResponse = {
+            error: false,
+            message: 'Successfully sent reset email'
+          };
+          resolve(forgetSuccessPasswordResponse);
+        })
+        .catch((error) => {
+          const forgetErrorPasswordResponse = {
+            error: true,
+            errorDetails: error
+          };
+          reject(forgetErrorPasswordResponse);
+        });
     });
     return promise;
   }
@@ -91,10 +107,26 @@ export class AuthService implements OnDestroy {
   }
 
   login(provider: AuthProvider, providerName) {
-    this.angularFireAuth.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-      .then(() => {
-        this.angularFireAuth.auth.signInWithRedirect(provider);
-      });
+    const promise = new Promise((resolve, reject) => {
+      this.angularFireAuth.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        .then(() => {
+          this.angularFireAuth.auth.signInWithPopup(provider).then((response) => {
+            const successResponse = {
+              error: false,
+              provider: providerName,
+              response: response.user
+            };
+            resolve(successResponse);
+          });
+        }).catch((error) => {
+          const errorResponse = {
+            error: true,
+            response: error
+          };
+          reject(errorResponse);
+        });
+    });
+    return promise;
   }
 
   checkLoginStatus() {

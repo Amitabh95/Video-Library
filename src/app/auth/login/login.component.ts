@@ -28,11 +28,19 @@ forgotPasswordEmail: string;
   }
 
   loginWithGoogle() {
-    this.authService.googleLogin();
+    this.authService.googleLogin().then((response) => {
+      console.log('Success response---> ', response);
+    }).catch((error) => {
+      console.log('Error---> ', error);
+    });
   }
 
   loginWithFacebook() {
-    this.authService.facebookLogin();
+    this.authService.facebookLogin().then((response) => {
+      console.log('Success response---> ', response);
+    }).catch((error) => {
+      console.log('Error---> ', error);
+    });
   }
 
   signupWithEmail() {
