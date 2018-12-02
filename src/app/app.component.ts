@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+// import { StorageService } from './shared/services/storage/storage.service';
+// import { Router } from '@angular/router';
+// import { AuthService } from './shared/services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +10,17 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ngVideoLibrary';
+  constructor(
+    // private storage: StorageService,
+    // private router: Router,
+    // private authService: AuthService
+  ) {
+      // this.storage.getToken().then((response: any) => {
+      //   if (!response.error) {
+      //     this.router.navigate(['/']);
+      //   } else {
+      //     this.router.navigate(['/login']);
+      //   }
+      // });
+  }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ClearStorageResponse } from '../../model/model';
+import * as jwt_decode from 'node_modules/jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +8,69 @@ import { ClearStorageResponse } from '../../model/model';
 export class StorageService {
 
   constructor() { }
+
+  setToken(token) {
+    localStorage.setItem('userToken', token);
+  }
+
+  isTokenPresent() {
+    const token = localStorage.getItem('userToken');
+    if (token) {
+      return  true;
+    } else {
+      return false;
+    }
+  }
+
+  getToken() {
+    const promise = new Promise((resolve, reject) => {
+      const token = localStorage.getItem('userToken');
+      if (token) {
+        const successResponse = {
+          error: false,
+          response: {
+            tokenValue: token
+          }
+        };
+        resolve(successResponse);
+      } else {
+        const errorResponse = {
+          error: true,
+          response: {
+            message: 'No token in localstorage'
+          }
+        };
+        reject(errorResponse);
+      }
+    });
+    return promise;
+  }
+
+  getDecodeToken() {
+    const promise = new Promise((resolve, reject) => {
+      const token = localStorage.getItem('userToken');
+      if (token) {
+        const decodedToken = jwt_decode(token);
+        const successResponse = {
+          error: false,
+          response: {
+            rawToken: token,
+            decodeTokenValue: decodedToken
+          }
+        };
+        resolve(successResponse);
+      } else {
+        const errorResponse = {
+          error: true,
+          reponse: {
+            message: 'No token in localstorage'
+          }
+        };
+        reject(errorResponse);
+      }
+    });
+    return promise;
+  }
 
   setInStorage(key, value) {
     const stringifiedValue = JSON.stringify(value);

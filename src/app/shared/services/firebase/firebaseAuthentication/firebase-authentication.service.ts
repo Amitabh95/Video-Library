@@ -2,13 +2,14 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import AuthProvider = firebase.auth.AuthProvider;
-import { StorageService } from '../storage/storage.service';
-import { ClearStorageResponse } from '../../model/model';
+import { StorageService } from '../../storage/storage.service';
+import { ClearStorageResponse } from '../../../model/model';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService implements OnDestroy {
+export class FirebaseAuthenticationService implements OnDestroy {
   userAuthState: any;
 
   constructor(
@@ -19,7 +20,9 @@ export class AuthService implements OnDestroy {
   googleLogin() {
     const promise = new Promise((resolve, reject) => {
       this.login(new firebase.auth.GoogleAuthProvider(), 'Google')
-        .then((successResonse) => {
+        .then((successResonse: any) => {
+          const token = successResonse.response.qa;
+          this.storage.setToken(token);
           resolve(successResonse);
         }).catch((errorResponse) => {
           reject(errorResponse);
@@ -31,7 +34,9 @@ export class AuthService implements OnDestroy {
   facebookLogin() {
     const promise = new Promise((resolve, reject) => {
       this.login(new firebase.auth.FacebookAuthProvider(), 'Facebook')
-        .then((successResonse) => {
+        .then((successResonse: any) => {
+          const token = successResonse.response.qa;
+          this.storage.setToken(token);
           resolve(successResonse);
         }).catch((errorResponse) => {
           reject(errorResponse);
@@ -88,10 +93,13 @@ export class AuthService implements OnDestroy {
         .then(() => {
           this.angularFireAuth.auth.signInWithEmailAndPassword(email, password)
             .then((loginData) => {
+              const userData: any = loginData.user;
               const successResponse = {
                 error: false,
-                response: loginData.user
+                response: userData
               };
+              const token = userData.qa;
+              this.storage.setToken(token);
               resolve(successResponse);
             });
         })
@@ -175,3 +183,4 @@ export class AuthService implements OnDestroy {
     this.userAuthState.unsubscribe();
   }
 }
+
