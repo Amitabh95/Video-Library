@@ -75,8 +75,8 @@ export class LoginComponent implements OnInit {
         this.saveUserData(loginData);
       }
     }).catch((error) => {
-        console.log('Error while login---> ', error);
-      });
+      console.log('Error while login---> ', error);
+    });
   }
 
   sendResetEmail() {
@@ -113,8 +113,11 @@ export class LoginComponent implements OnInit {
               email: response.response.email,
               photoURL: response.response.photoURL
             },
-            accountCreatedOn: response.response.metadata.a,
-            lastSignin: response.response.metadata.b,
+            accountCreatedOn: Date.now(),
+            lastSignin: {
+              lastSigninTime: '',
+              currentSigninTime: Date.now(),
+            },
             isAdmin: false,
             isFirstLogin: true,
             watchedSeries: [],
@@ -130,21 +133,31 @@ export class LoginComponent implements OnInit {
               console.log('Error in creation of new user ---> ', res);
             }
           }).catch((err) => {
-            console.log( 'error---> ', err);
+            console.log('error---> ', err);
           });
         } else {
-          const existingMemberData = {
-            isFirstLogin: false,
-            lastSignin: response.response.metadata.b
-          };
-          this.angularFirestore.updateUserData(response.response.uid, existingMemberData).then((res: any) => {
-            if (!res.error) {
-              this.router.navigate(['/']);
-            } else {
-              console.log('Error---> ', res.errorDetails);
+          this.angularFirestore.getUserData(response.response.uid).then((userData: any) => {
+            console.log('Get user---> ', userData);
+            if (!userData.error) {
+              const existingMemberData = {
+                isFirstLogin: false,
+                lastSignin: {
+                  lastSigninTime: userData.response.lastSignin.currentSigninTime,
+                  currentSigninTime: Date.now(),
+                }
+              };
+              this.angularFirestore.updateUserData(response.response.uid, existingMemberData).then((res: any) => {
+                if (!res.error) {
+                  this.router.navigate(['/']);
+                } else {
+                  console.log('Error---> ', res.errorDetails);
+                }
+              }).catch((error1) => {
+                console.log('Error---> ', error1);
+              });
             }
-          }).catch((error1) => {
-            console.log('Error---> ', error1);
+          }).catch((error) => {
+            console.log('Error---> ', error);
           });
         }
       }).catch((error2) => {

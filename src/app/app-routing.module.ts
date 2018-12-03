@@ -5,8 +5,9 @@ import { AccessGuardService } from './shared/services/security/accessGuard/acces
 
 const routes: Routes = [
   // { path: '', redirectTo: 'login', pathMatch: 'full'},
-  { path: '', loadChildren: './video/video.module#VideoModule', canActivate: [AuthguardService] },
-  { path: 'login', loadChildren: './auth/auth.module#AuthModule', canActivate: [AccessGuardService] }
+  { path: '', loadChildren: './module/video/video.module#VideoModule', canActivate: [AuthguardService] },
+  { path: 'login', loadChildren: './module/auth/auth.module#AuthModule', canActivate: [AccessGuardService] },
+  { path: 'admin', loadChildren: './module/admin/admin.module#AdminModule', canActivate: [AuthguardService]}
 ];
 
 @NgModule({

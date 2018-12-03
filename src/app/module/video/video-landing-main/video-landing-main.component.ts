@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FirebaseAuthenticationService } from 'src/app/shared/services/firebase/firebaseAuthentication/firebase-authentication.service';
 import { Router } from '@angular/router';
+import { FirestoreDatabaseService } from 'src/app/shared/services/firebase/firestoreDatabase/firestore-database.service';
 
 @Component({
   selector: 'app-video-landing-main',
@@ -8,9 +9,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./video-landing-main.component.css']
 })
 export class VideoLandingMainComponent implements OnInit {
+  allVideoPlaylist: any;
 
   constructor(
     private authService: FirebaseAuthenticationService,
+    private firestoreDB: FirestoreDatabaseService,
     private router: Router) { }
 
   ngOnInit() {
@@ -26,6 +29,15 @@ export class VideoLandingMainComponent implements OnInit {
         });
     }).catch((error) => {
       console.log('Logout error--> ', error);
+    });
+  }
+
+  getAllVideos() {
+    this.firestoreDB.getAllVideoPlaylist().then((response: any) => {
+      this.allVideoPlaylist = response.response;
+      console.log('Response---> ', response);
+    }).catch((error) => {
+      console.log('Error---> ', error);
     });
   }
 }
