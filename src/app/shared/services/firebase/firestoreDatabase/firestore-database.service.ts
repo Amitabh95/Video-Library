@@ -1,13 +1,13 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireStorage } from 'angularfire2/storage';
-// import 'rxjs/add/operator/mergeMap';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirestoreDatabaseService implements OnDestroy {
   observeValueChange: any;
+  videoPlaylistArray: any[] = [];
   constructor(
     private angularFirestore: AngularFirestore,
     private angularFireStorage: AngularFireStorage
@@ -64,13 +64,15 @@ export class FirestoreDatabaseService implements OnDestroy {
   }
 
   getUserData(uid) {
-    const promise = new Promise ((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       this.angularFirestore.collection(`users`).doc(uid).get().toPromise().then((value) => {
-        const successResponse = {
-          error: false,
-          response: value.data()
-        };
-        resolve(successResponse);
+        if (value.exists) {
+          const successResponse = {
+            error: false,
+            response: value.data()
+          };
+          resolve(successResponse);
+        }
       }).catch((error) => {
         const errorResponse = {
           error: true,
@@ -83,36 +85,45 @@ export class FirestoreDatabaseService implements OnDestroy {
   }
 
   createNewVideoPlaylist(videoData) {
-    const reff = this.angularFirestore.collection(`videos/`).add(videoData)
-    .then((res) => {
-      console.log('res---> ', res);
-    })
-    .catch((error) => {
-      console.log('res---> ', error);
+    const promise = new Promise((resolve, reject) => {
+      this.angularFirestore.collection(`videos/`).doc(videoData.videoID).set(videoData)
+        .then((res) => {
+          const successResponse = {
+            error: false,
+            response: {
+              message: 'Successfully added new playlst'
+            }
+          };
+          resolve(successResponse);
+        })
+        .catch((error) => {
+          const errorResponse = {
+            error: true,
+            errorDetails: error
+          };
+          reject(errorResponse);
+        });
     });
-    // .doc(videoData.videoID)
-    // .set(videoData).then((successResponse) => {
-    //   console.log('Video Data added---> ', successResponse);
-    // }).catch((error) => {
-    //   console.log('Error while creating new video data---> ', error);
-    // });
+    return promise;
   }
 
   getAllVideoPlaylist() {
     const promise = new Promise((resolve, reject) => {
-      this.angularFirestore.collection(`videos/`).get().toPromise().then((response) => {
-        console.log('size---> ', response.size);
-        let videoPlaylistArray: any[] = [];
+      this.angularFirestore.collection(`videos/`).get().toPromise().then((response: any) => {
+        let i = 1;
         response.forEach((doc) => {
-          videoPlaylistArray.push(doc.data());
+          this.videoPlaylistArray.push(doc.data());
+          if (i === response.size) {
+            const successResponse = {
+              error: false,
+              response: this.videoPlaylistArray
+            };
+            resolve(successResponse);
+          } else {
+            i++;
+          }
         });
-        const successResponse = {
-          error: false,
-          response: videoPlaylistArray
-        };
-        resolve(successResponse);
-      })
-      .catch((error) => {
+      }).catch((error) => {
         const errorResponse = {
           error: true,
           errorDetails: error
@@ -123,13 +134,66 @@ export class FirestoreDatabaseService implements OnDestroy {
     return promise;
   }
 
-  pushDocInArray(data: firebase.firestore.QuerySnapshot) {
-    const promise = new Promise ((resolve, reject) => {
-      let dataInArray: any[] = [];
-      data.forEach(doc => {
-        dataInArray.push(doc.data());
-      });
+  getVideoPlaylist(videoID) {
+    const promise = new Promise((resolve, reject) => {
+      this.angularFirestore.collection(`videos/`).doc(videoID)
+        .get().toPromise().then((result) => {
+          if (result.exists) {
+            const successResponse = {
+              error: false,
+              response: result.data()
+            };
+            resolve(successResponse);
+          }
+        }).catch((error) => {
+          const errorResponse = {
+            error: true,
+            errorDetails: error
+          };
+          reject(errorResponse);
+        });
     });
+    return promise;
+  }
+
+  incrementSeriesVideoLike(videoData, episodeID, uid) {
+    console.log('videoData--> ', videoData);
+    console.log('episodeID--> ', episodeID);
+    console.log('uid--> ', uid);
+    if (episodeID === null) {
+      let likes = videoData.likes.likes;
+      let likedBy = videoData.likes.likedBy;
+      likes++;
+      likedBy.push(uid);
+      const dataForUpdating = {
+        likes: {
+          likes: likes,
+          likedBy: likedBy
+        }
+      };
+      this.angularFirestore.collection(`videos/`).doc(videoData.videoID)
+        .set(dataForUpdating, { merge: true }).then((result) => {
+          console.log('Result--> ', result);
+        });
+    } else {
+      let episode = videoData.episode;
+      let episodeLikes = videoData.episode[episodeID].likes.likes;
+      const episodeLikedBy = videoData.episode[episodeID].likes.likedBy;
+      episodeLikes++;
+      episodeLikedBy.push(uid);
+      const dataForUpdating = {
+        likes: {
+          likes: episodeLikes,
+          likedBy: episodeLikedBy
+        }
+      };
+      episode[episodeID].likes = dataForUpdating;
+      console.log('Episode updated: ', episode[episodeID]);
+      this.angularFirestore.collection(`videos/`).doc(videoData.videoID)
+        .set(episode, { merge: true }).then((result) => {
+          console.log('Result--> ', result);
+        });
+    }
   }
 
   ngOnDestroy() {
