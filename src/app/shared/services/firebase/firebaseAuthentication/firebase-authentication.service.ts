@@ -23,6 +23,7 @@ export class FirebaseAuthenticationService implements OnDestroy {
         .then((successResonse: any) => {
           const token = successResonse.response.qa;
           this.storage.setToken(token);
+          this.storage.setUID(successResonse.response.uid);
           resolve(successResonse);
         }).catch((errorResponse) => {
           reject(errorResponse);
@@ -37,6 +38,7 @@ export class FirebaseAuthenticationService implements OnDestroy {
         .then((successResonse: any) => {
           const token = successResonse.response.qa;
           this.storage.setToken(token);
+          this.storage.setUID(successResonse.response.uid);
           resolve(successResonse);
         }).catch((errorResponse) => {
           reject(errorResponse);
@@ -100,6 +102,7 @@ export class FirebaseAuthenticationService implements OnDestroy {
               };
               const token = userData.qa;
               this.storage.setToken(token);
+              this.storage.setUID(userData.uid);
               resolve(successResponse);
             });
         })
