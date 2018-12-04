@@ -3,18 +3,30 @@
 </p>
 
 <button (click)="signOut()">Logout</button><br><br><br>
-<button (click)="getAllVideos()">Get All Videos</button><br><br>
 
-<div *ngIf="allVideoPlaylist">
-    <div *ngFor="let data of allVideoPlaylist">
-        <span >
-          <img [src]="data.URL.thumbnail" width="200px">
-          <div class="playlist-text-content">
-            <h3>{{ data.name}}</h3>
-          </div>
-        </span>
-        <div>
-          
+<div class="playlist-container" *ngIf="allVideoPlaylist">
+  <div class="video-card" *ngFor="let data of allVideoPlaylist ">
+    <span>
+      <a (click)="playVideo(data)">
+          <img class="video-thumbnail" [src]="data.URL.thumbnail" width="200px">
+      </a>
+      <div class="playlist-text-content">
+        <a (click)="playVideo(data)">
+          <h2 class="video-name">{{ data.name}}</h2>
+        </a>
+        <span>{{data.description}}</span>
+        <div class="video-details-strip">
+          <span>Added {{timeDifference(data.addedOn)}} ago</span>
+          <span class="playlist-episode" *ngIf="calculateEpisodes(data.episode) !== 0">{{calculateEpisodes(data.episode)}}</span>
+          <span class="playlist-episode">Added by: {{data.addedBy.name}}</span>
+          <span class="playlist-episode">{{data.likes}} likes</span>
+          <span class="playlist-episode">{{data.views}} views</span>
+          <span class="playlist-episode">Genre: {{data.genre}}</span>
         </div>
       </div>
+    </span>
+  </div>
+  <div>
+
+  </div>
 </div>

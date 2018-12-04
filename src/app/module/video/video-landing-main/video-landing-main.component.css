@@ -1,5 +1,26 @@
 .playlist-text-content {
-    width: 400px;
+    width: 900px;
     display: inline-block;
     vertical-align: top;
+    margin-left: 50px;
+    margin-top: -15px;
+}
+.video-card {
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+.playlist-container {
+    margin-left: 150px
+}
+.playlist-episode {
+    margin-left: 35px 
+}
+.video-details-strip {
+    margin-top: 10px
+}
+.video-thumbnail {
+    cursor: pointer;
+}
+.video-name {
+    cursor: pointer;
 }

@@ -1,3 +1,27 @@
 <p>
   video-player-main works!
 </p>
+<div *ngIf="videoPlaylist && !isEpisode">
+  <h2>{{videoPlaylist.name}}</h2>
+  <div id="video-container"></div>
+  <div class="video-detail-card">
+      <span class="">{{videoPlaylist.description}}</span>
+      <div class="sub-detail-card">
+        <span>{{videoLikes}} likes</span>
+        <button (click)="likeIncreament()">Like</button>
+      </div>
+  </div>
+</div>
+
+
+<div *ngIf="isEpisode && episodeVideoData">
+    <h2>{{episodeVideoData.name}}</h2>
+    <div id="video-container"></div>
+    <div class="video-detail-card">
+        <span class="">{{episodeVideoData.description}}</span>
+        <div class="sub-detail-card">
+          <span>{{videoLikes}} likes</span>
+          <button (click)="likeIncreament()">Like</button>
+        </div>
+    </div>
+</div>
