@@ -13,6 +13,10 @@ export class StorageService {
     localStorage.setItem('userToken', token);
   }
 
+  setUID(uid) {
+    localStorage.setItem('uid', uid);
+  }
+
   isTokenPresent() {
     const token = localStorage.getItem('userToken');
     if (token) {
