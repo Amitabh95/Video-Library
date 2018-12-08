@@ -1,0 +1,135 @@
+.card {
+    width: 400px;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+    margin: 28px auto;
+    margin-top: 121px;
+}
+
+.provider-login-card {
+    width: 400px;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+    margin: 28px auto;
+}
+
+.mat-tab-label  {
+    width: 50% !important;
+    margin-top: -16px;
+}
+
+.mat-tab-label-content {
+    padding-top: 11px;
+}
+
+.card-content-label {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.login-form {
+    margin-top: 30px;
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+  
+.field-full-width {
+    width: 100%;
+}
+
+.password-toggle-button {
+    position: absolute;
+    right: 0px;
+}
+
+.login-button {
+    position: absolute;
+    background-color: #3700B3;  
+}
+
+.mat-button-wrapper {
+    color: white;
+}
+
+.signup-button-wrapper {
+    position: relative;
+    text-align: center;
+}
+
+.login-button-wrapper {
+    position: relative;
+    text-align: center;
+    margin-top: 26px;
+}
+
+.google-login-button {
+    background-color: #4285f4;
+    width: 180px;
+    height: 45px;
+}
+
+.google-login-button-img-wrapper {
+    position: relative;
+}
+
+.google-login-button-img{
+    position: absolute;
+    margin-top: -5px;
+    margin-left: -17px;
+
+}
+
+.provider-login-button-wrapper {
+    margin-top: 30px;
+}
+
+.google-login-button-text {
+    margin-left: 29px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.facebook-login-button {
+    margin-left: 30px;
+    background-color: #3a5998;
+    width: 200px;
+    height: 45px;
+    bottom: -15px;
+    right: -21px;
+}
+
+.facebook-login-button-img {
+    width: 43px;
+    margin-top: 1px;
+    margin-left: -155px;
+}
+.facebook-login-button-img-wrapper {
+    position: relative;
+}
+.facebook-login-button-text {
+    position: absolute;
+    display: inline-block;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.content-divider {
+    top: 46px;
+}
+
+.forgot-password-wrapper {
+    position: relative;
+}
+
+.forgot-password-text {
+    position: absolute;
+    right: 3px;
+    margin-top: -7px;
+    cursor: pointer;
+}
+
+.field-error {
+    margin-top: -18px;
+    color: red;
+    font-size: 13px;
+}

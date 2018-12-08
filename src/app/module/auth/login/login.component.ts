@@ -1,102 +1,182 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FirebaseAuthenticationService } from 'src/app/shared/services/firebase/firebaseAuthentication/firebase-authentication.service';
 import { Router } from '@angular/router';
 import { FirestoreDatabaseService } from 'src/app/shared/services/firebase/firestoreDatabase/firestore-database.service';
-
+import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material';
+import { MaterialDialogComponent } from '../../shared-components/material-dialog/material-dialog.component';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class LoginComponent implements OnInit {
+  loginForm: FormGroup;
+  signupForm: FormGroup;
   loginEmail: string;
   loginPassword: string;
   signupEmail: string;
   signupPassword: string;
   forgotPasswordEmail: string;
+  loginPasswordType: string;
+  loginPasswordHideShow: string;
+  signupPasswordType: string;
+  signupPasswordHideShow: string;
+  enableEmailLoginButton: boolean;
+  enableSignupButton: boolean;
+  enableGoogleLoginButton: boolean;
+  enableFacebookLoginButton: boolean;
   constructor(
     private authService: FirebaseAuthenticationService,
     private router: Router,
-    private angularFirestore: FirestoreDatabaseService
-  ) { }
+    private angularFirestore: FirestoreDatabaseService,
+    private toastrAlert: ToastrService,
+    private dialog: MatDialog,
+    private formBuilder: FormBuilder
+  ) {
+    this.loginPasswordType = 'password';
+    this.loginPasswordHideShow = 'Show';
+    this.signupPasswordType = 'password';
+    this.signupPasswordHideShow = 'Show';
+    this.enableEmailLoginButton = true;
+    this.enableSignupButton = true;
+    this.enableGoogleLoginButton = true;
+    this.enableFacebookLoginButton = true;
+  }
 
   ngOnInit() {
+    this.initForm();
     this.authService.checkLoginStatus()
-      .then((statusValue) => {
-        console.log('Auth Status-> ', statusValue);
+      .then((successResponse: any) => {
+        if (!successResponse.error) {
+          this.router.navigate(['/']);
+        }
       })
-      .catch((error) => {
-        console.log('Error--> ', error);
+      .catch((error: any) => {
+        this.toastrAlert.error(error.errorResponse.message);
       });
   }
 
+  initForm() {
+    this.loginForm = this.formBuilder.group({
+      loginEmail: new FormControl('', [Validators.required, Validators.email]),
+      loginPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    });
+    this.signupForm = this.formBuilder.group({
+      signupEmail: new FormControl('', [Validators.required, Validators.email]),
+      signupPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    });
+  }
+
+  showPasswordDialog() {
+    const dialogRef = this.dialog.open(MaterialDialogComponent, {
+      height: '200px',
+      width: '400px',
+      data: {
+        purpose: 'forgotPassword',
+        email: ''
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.sendResetEmail(result.email);
+      }
+    });
+  }
+
+  toggleLoginPasswordType() {
+    if (this.loginPasswordType === 'password') {
+      this.loginPasswordHideShow = 'Hide';
+      this.loginPasswordType = 'text';
+    } else if (this.loginPasswordType === 'text') {
+      this.loginPasswordHideShow = 'Show';
+      this.loginPasswordType = 'password';
+    }
+  }
+
+  toggleSignupPasswordType() {
+    if (this.signupPasswordType === 'password') {
+      this.signupPasswordHideShow = 'Hide';
+      this.signupPasswordType = 'text';
+    } else if (this.signupPasswordType === 'text') {
+      this.signupPasswordHideShow = 'Show';
+      this.signupPasswordType = 'password';
+    }
+  }
+
   loginWithGoogle() {
+    this.enableGoogleLoginButton = false;
     this.authService.googleLogin().then((response: any) => {
-      console.log('Success response---> ', response);
       if (!response.error) {
+        this.toastrAlert.success('Login Successful!!');
         this.saveUserData(response);
       }
-    }).catch((error3) => {
-      console.log('Error---> ', error3);
+    }).catch((error: any) => {
+      this.enableGoogleLoginButton = true;
+      this.toastrAlert.error(error.errorDetails.message);
     });
   }
 
   loginWithFacebook() {
+    this.enableFacebookLoginButton = false;
     this.authService.facebookLogin().then((response: any) => {
-      console.log('Success response---> ', response);
       if (!response.error) {
+        this.toastrAlert.success('Login Successful!!');
         this.saveUserData(response);
       }
     }).catch((error) => {
-      console.log('Error---> ', error);
+      this.enableFacebookLoginButton = true;
+      this.toastrAlert.error(error.errorDetails.message);
     });
   }
 
   signupWithEmail() {
+    this.enableSignupButton = false;
     this.authService.emailSignUp(this.signupEmail, this.signupPassword)
-      .then((signupData) => {
-        console.log('Signup Success---> ', signupData);
-        this.authService.loginWithEmail(this.signupEmail, this.signupPassword).then((loginData: any) => {
-          console.log('Login Successful after signup---> ', loginData);
-          if (!loginData.error) {
-            this.saveUserData(loginData);
-          }
-        });
-      }).catch((error) => {
-        console.log('Signup failed--> ', error);
+      .then((signupData: any) => {
+        if (!signupData.error) {
+          this.toastrAlert.success('Confirmation mail has been sent to your email. Please confirm your email');
+        }
+      }).catch((error: any) => {
+        this.enableSignupButton = true;
+        this.toastrAlert.error(error.errorDetails.message);
       });
   }
 
   loginWithEmail() {
+    this.enableEmailLoginButton = false;
     this.authService.loginWithEmail(this.loginEmail, this.loginPassword).then((loginData: any) => {
-      console.log('Login Success---> ', loginData);
       if (!loginData.error) {
+        this.toastrAlert.success('Sign in successful.');
         this.saveUserData(loginData);
       }
-    }).catch((error) => {
-      console.log('Error while login---> ', error);
+    }).catch((error: any) => {
+      this.enableEmailLoginButton = true;
+      this.toastrAlert.error(error.errorDetails.message);
     });
   }
 
-  sendResetEmail() {
-    this.authService.forgotPassword(this.forgotPasswordEmail)
-      .then((successResponse) => {
-        console.log('Success --->', successResponse);
-      }).catch((errorResponse) => {
-        console.log('Error ---> ', errorResponse);
+  sendResetEmail(email) {
+    this.authService.forgotPassword(email)
+      .then((successResponse: any) => {
+        if (!successResponse.error) {
+          this.toastrAlert.success(successResponse.message);
+        }
+      }).catch((errorResponse: any) => {
+        this.toastrAlert.error(errorResponse.errorDetails.message);
       });
   }
 
   signOut() {
     this.authService.signOut().then((logoutValue) => {
-      console.log('Logout Value--->', logoutValue);
       this.authService.checkLoginStatus()
         .then((value) => {
-          console.log('Login status after logout---> ', value);
         });
     }).catch((error) => {
-      console.log('Logout error--> ', error);
     });
   }
 
@@ -134,10 +214,10 @@ export class LoginComponent implements OnInit {
             }
           }).catch((err) => {
             console.log('error---> ', err);
+            this.toastrAlert.error(err.errorDetails.message);
           });
         } else {
           this.angularFirestore.getUserData(response.response.uid).then((userData: any) => {
-            console.log('Get user---> ', userData);
             if (!userData.error) {
               const existingMemberData = {
                 isFirstLogin: false,

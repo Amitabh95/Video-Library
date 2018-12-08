@@ -1,27 +1,99 @@
 <p>
   video-player-main works!
 </p>
+
+<button (click)="navigateBack()">Go Back</button>
 <div *ngIf="videoPlaylist && !isEpisode">
   <h2>{{videoPlaylist.name}}</h2>
-  <div id="video-container"></div>
+  <div [innerHtml]="videoContainer"></div>
   <div class="video-detail-card">
-      <span class="">{{videoPlaylist.description}}</span>
-      <div class="sub-detail-card">
-        <span>{{videoLikes}} likes</span>
-        <button (click)="likeIncreament()">Like</button>
+    <span class="">{{videoPlaylist.description}}</span>
+    <div class="sub-detail-card">
+      <span>{{videoLikes}} likes</span>
+      <button (click)="likeIncreament()">Like</button>
+      <span *ngIf="videoPlaylist.views === 1 || videoPlaylist.views === 0">{{videoPlaylist.views}} view</span>
+      <span *ngIf="videoPlaylist.views > 1">{{videoPlaylist.views}} views</span>
+    </div>
+  </div>
+  <div class="video-card" *ngFor="let data of episodeVideoList ">
+    <span>
+      <a (click)="playVideo(data)">
+        <img class="video-thumbnail" [src]="data.URL.thumbnail" width="200px">
+      </a>
+      <div class="playlist-text-content">
+        <a (click)="playVideo(data)">
+          <h2 class="video-name">{{ data.name}}</h2>
+        </a>
+        <span>{{data.description}}</span>
+        <div class="video-details-strip">
+          <span>Added {{timeDifference(data.addedOn)}} ago</span>
+          <!-- <span class="playlist-episode" *ngIf="calculateEpisodes(data.episode) !== 0">{{calculateEpisodes(data.episode)}}</span> -->
+          <span class="playlist-episode">Added by: {{data.addedBy.name}}</span>
+          <span class="playlist-episode">{{data.likes.likes}} likes</span>
+          <span class="playlist-episode">{{data.views}} views</span>
+          <!-- <span class="playlist-episode">Genre: {{data.genre}}</span> -->
+        </div>
       </div>
+    </span>
   </div>
 </div>
 
 
 <div *ngIf="isEpisode && episodeVideoData">
-    <h2>{{episodeVideoData.name}}</h2>
-    <div id="video-container"></div>
-    <div class="video-detail-card">
-        <span class="">{{episodeVideoData.description}}</span>
-        <div class="sub-detail-card">
-          <span>{{videoLikes}} likes</span>
-          <button (click)="likeIncreament()">Like</button>
-        </div>
+  <h2>{{episodeVideoData.name}}</h2>
+  <div *ngIf="loadPlayer">
+    <div (click)="playerEvent($event)" [innerHtml]="videoContainer"></div>
+    <!-- <youtube-player [videoId]="playerVideoID" (ready)="savePlayer($event)" (change)="onStateChange($event)"></youtube-player> -->
+  </div>
+  <div class="video-detail-card">
+    <span class="">{{episodeVideoData.description}}</span>
+    <div class="sub-detail-card">
+      <span>{{videoLikes}} likes</span>
+      <button (click)="likeIncreament()">Like</button>
+      <span *ngIf="episodeVideoData.views === 1 || episodeVideoData.views === 0">{{episodeVideoData.views}} view</span>
+      <span *ngIf="episodeVideoData.views > 1">{{episodeVideoData.views}} views</span>
     </div>
+  </div>
+  <div class="video-card" *ngFor="let data of otherEpisodeList ">
+    <span>
+      <a (click)="playVideo(data)">
+        <img class="video-thumbnail" [src]="data.URL.thumbnail" width="200px">
+      </a>
+      <div class="playlist-text-content">
+        <a (click)="playVideo(data)">
+          <h2 class="video-name">{{ data.name}}</h2>
+        </a>
+        <span>{{data.description}}</span>
+        <div class="video-details-strip">
+          <span>Added {{timeDifference(data.addedOn)}} ago</span>
+          <!-- <span class="playlist-episode" *ngIf="calculateEpisodes(data.episode) !== 0">{{calculateEpisodes(data.episode)}}</span> -->
+          <span class="playlist-episode">Added by: {{data.addedBy.name}}</span>
+          <span class="playlist-episode">{{data.likes.likes}} likes</span>
+          <span class="playlist-episode">{{data.views}} views</span>
+          <!-- <span class="playlist-episode">Genre: {{data.genre}}</span> -->
+        </div>
+      </div>
+    </span>
+  </div>
+  <div class="video-card" *ngIf="videoPlaylist">
+    <span class="playlist-text-content">
+      <a (click)="playVideo(videoPlaylist)">
+        <img class="video-thumbnail" [src]="videoPlaylist.URL.thumbnail" width="200px">
+      </a>
+      <div>
+        <a (click)="playVideo(videoPlaylist)">
+          <h2 class="video-name">{{ videoPlaylist.name}}</h2>
+        </a>
+        <span>{{videoPlaylist.description}}</span>
+        <div class="video-details-strip">
+          <span>Added {{timeDifference(videoPlaylist.addedOn)}} ago</span>
+          <!-- <span class="playlist-episode" *ngIf="calculateEpisodes(videoPlaylist.episode) !== 0">{{calculateEpisodes(videoPlaylist.episode)}}</span> -->
+          <span class="playlist-episode">Added by: {{videoPlaylist.addedBy.name}}</span>
+          <span class="playlist-episode">{{videoPlaylist.likes.likes}} likes</span>
+          <span class="playlist-episode">{{videoPlaylist.views}} views</span>
+          <!-- <span class="playlist-episode">Genre: {{videoPlaylist.genre}}</span> -->
+        </div>
+      </div>
+    </span>
+  </div>
 </div>

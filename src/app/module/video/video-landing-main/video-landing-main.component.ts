@@ -9,7 +9,7 @@ import { FirestoreDatabaseService } from 'src/app/shared/services/firebase/fires
   styleUrls: ['./video-landing-main.component.css']
 })
 export class VideoLandingMainComponent implements OnInit {
-  allVideoPlaylist: any;
+  allVideoPlaylist: any[] = [];
 
   constructor(
     private authService: FirebaseAuthenticationService,
@@ -36,7 +36,9 @@ export class VideoLandingMainComponent implements OnInit {
   getAllVideos() {
     this.firestoreDB.getAllVideoPlaylist().then((response: any) => {
       this.allVideoPlaylist = response.response;
+      console.log('Video Playlist before--> ', this.allVideoPlaylist);
       this.allVideoPlaylist = this.sortSeries();
+      console.log('Video Playlist after--> ', this.allVideoPlaylist);
     }).catch((error) => {
       console.log('Error---> ', error);
     });

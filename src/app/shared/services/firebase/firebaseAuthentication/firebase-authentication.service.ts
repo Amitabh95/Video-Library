@@ -51,11 +51,14 @@ export class FirebaseAuthenticationService implements OnDestroy {
     const promise = new Promise((resolve, reject) => {
       this.angularFireAuth.auth.createUserWithEmailAndPassword(email, password)
         .then((signupData) => {
-          const successResponse = {
-            error: false,
-            response: signupData.user
-          };
-          resolve(successResponse);
+          this.angularFireAuth.authState.subscribe((successResult) => {
+            successResult.sendEmailVerification();
+            const successResponse = {
+              error: false,
+              response: signupData.user
+            };
+            resolve(successResponse);
+          });
         })
         .catch(error => {
           const errorResponse = {
@@ -104,14 +107,13 @@ export class FirebaseAuthenticationService implements OnDestroy {
               this.storage.setToken(token);
               this.storage.setUID(userData.uid);
               resolve(successResponse);
+            }).catch((error) => {
+              const errorResponse = {
+                error: true,
+                errorDetails: error
+              };
+              reject(errorResponse);
             });
-        })
-        .catch((error) => {
-          const errorResponse = {
-            error: true,
-            errorDetails: error
-          };
-          reject(errorResponse);
         });
     });
     return promise;
@@ -128,13 +130,13 @@ export class FirebaseAuthenticationService implements OnDestroy {
               response: response.user
             };
             resolve(successResponse);
+          }).catch((error) => {
+            const errorResponse = {
+              error: true,
+              errorDetails: error
+            };
+            reject(errorResponse);
           });
-        }).catch((error) => {
-          const errorResponse = {
-            error: true,
-            response: error
-          };
-          reject(errorResponse);
         });
     });
     return promise;

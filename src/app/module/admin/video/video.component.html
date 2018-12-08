@@ -1,0 +1,43 @@
+<h2>Admin Video Edit / Add</h2>
+<h2 *ngIf="forAddingNewVideo">Add video</h2>
+<h2 *ngIf="!forAddingNewVideo">Edit video</h2>
+<form [formGroup]="addVideoForm">
+    <label>Name: </label>
+    <input formControlName="videoName"><br><br>
+    <label>Description: </label>
+    <input formControlName="videoDescription"><br><br>
+    <label>URL: </label><br>
+    <label>Thumbnail: </label>
+    <input formControlName="videoThumbnailURL"><br><br>
+    <label>Video: </label>
+    <input formControlName="videoVideoURL"><br><br>
+    <label>Genre: </label>
+    <input formControlName="videoGenre"><br><br>
+
+    <label>Episodes:</label>
+    <button (click)="addNewInputField()">Add Episode</button>
+    <div formArrayName="videoEpisodeArray">
+        <div *ngFor="let data of addVideoForm.get('videoEpisodeArray').controls; let i = index">
+            <section [formGroupName]="i">
+                <label>Episode Name:</label>
+                <input formControlName="episodeName"><br><br>
+                <label>Description:</label>
+                <input formControlName="episodeDescription"><br><br>
+                <label>URL: </label><br><br>
+                <label>Thumbnail: </label>
+                <input formControlName="episodeThumbnailURL"><br><br>
+                <label>Video: </label>
+                <input formControlName="episodeVideoURL"><br><br>
+
+                <div *ngIf="addVideoForm.get('videoEpisodeArray').length >= 1">
+                    <button (click)="addNewInputField()">Add Episode</button>
+                    <button (click)="removeInputField(i)">Remove Episode </button>
+                </div>
+            </section>
+        </div>
+    </div><br><br><br>
+    <button *ngIf="forAddingNewVideo" type="button" (click)="addNewVideo()">Add New Playlist</button>
+    <button *ngIf="!forAddingNewVideo" type="button" (click)="editVideo()">Edit Playlist</button>
+</form>
+<br><br>
+<button (click)="addDummyData()">Add Dummy Data</button>

@@ -19,7 +19,7 @@
           <span>Added {{timeDifference(data.addedOn)}} ago</span>
           <span class="playlist-episode" *ngIf="calculateEpisodes(data.episode) !== 0">{{calculateEpisodes(data.episode)}}</span>
           <span class="playlist-episode">Added by: {{data.addedBy.name}}</span>
-          <span class="playlist-episode">{{data.likes}} likes</span>
+          <span class="playlist-episode">{{data.likes.likes}} likes</span>
           <span class="playlist-episode">{{data.views}} views</span>
           <span class="playlist-episode">Genre: {{data.genre}}</span>
         </div>

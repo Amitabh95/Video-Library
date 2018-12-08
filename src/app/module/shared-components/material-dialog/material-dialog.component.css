@@ -1,0 +1,22 @@
+.reset-password-text {
+    font-weight: bold;   
+    margin-top: -2px;
+}
+
+.reset-password-email-field {
+    width: 350px;
+}
+
+.reset-password-dialog-buttons {
+    background-color: #3700B3;  
+}
+
+.reset-password-dialog-buttons-wrapper {
+    margin-left: 80px;
+    margin-top: -17px;
+}
+
+.email-error {
+    margin-top: -18px;
+    color: red;
+}

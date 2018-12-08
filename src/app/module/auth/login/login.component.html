@@ -1,18 +1,93 @@
-<button (click)="loginWithGoogle()">Login with Google</button><br><br>
-<button (click)="loginWithFacebook()">Login with Facebook</button><br><br>
+<mat-card class="card">
+    <mat-tab-group>
+        <mat-tab class="card-tab" label="Signin">
+            <div>
+                <div class="card-content-label">Signin using your existing account</div>
+                <form [formGroup]="loginForm" class="login-form" autocomplete="off">
+                    <mat-form-field class="field-full-width">
+                        <input matInput [(ngModel)]="loginEmail" placeholder="Enter your email address" autocomplete="off"
+                            formControlName="loginEmail">
+                    </mat-form-field>
+                    <p class="field-error" *ngIf="(loginForm.controls.loginEmail.dirty && loginForm.controls.loginEmail.invalid)">
+                        Please enter a valid email address
+                    </p>
 
-<h1>Login with email and password</h1>
-Email: <input type="email" [(ngModel)]="loginEmail"><br>
-Password: <input [(ngModel)]="loginPassword"><br>
-<button (click)="loginWithEmail()">Email Login</button><br><br>
+                    <mat-form-field class="field-full-width">
+                        <input matInput [(ngModel)]="loginPassword" placeholder="Enter your password" [type]="loginPasswordType"
+                            autocomplete="off" formControlName="loginPassword">
+                        <span class="password-toggle-button">
+                            <a (click)="toggleLoginPasswordType()">{{loginPasswordHideShow}}</a>
+                        </span>
+                    </mat-form-field>
+                    <p class="field-error" *ngIf="(loginForm.controls.loginPassword.dirty && loginForm.controls.loginPassword.invalid)">
+                        Password must be at least 6 characters
+                    </p>
+                    <div class="forgot-password-wrapper">
+                        <a class="forgot-password-text" (click)="showPasswordDialog()">Forgot password?</a>
+                    </div>
+                    <div class="login-button-wrapper">
+                        <button mat-button color="secondary" class="login-button" (click)="loginWithEmail()" [disabled]="loginForm.invalid || !enableEmailLoginButton">
+                            Signin
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </mat-tab>
+        <mat-tab class="card-tab" label="Signup">
+            <div>
+                <div class="card-content-label">Signup using your credentials</div>
+                <form [formGroup]="signupForm" class="login-form" autocomplete="off">
+                    <mat-form-field class="field-full-width">
+                        <input matInput [(ngModel)]="signupEmail" placeholder="Enter your email address" autocomplete="off"
+                            formControlName="signupEmail">
+                    </mat-form-field>
+                    <p class="field-error" *ngIf="(signupForm.controls.signupEmail.dirty && signupForm.controls.signupEmail.invalid)">
+                        Please enter a valid email address
+                    </p>
 
-<h1>Sign with email and password</h1>
-Email: <input type="email" [(ngModel)]="signupEmail"><br>
-Password: <input [(ngModel)]="signupPassword"><br>
-<button (click)="signupWithEmail()">Email Signup</button><br><br>
+                    <mat-form-field class="field-full-width">
+                        <input matInput [(ngModel)]="signupPassword" placeholder="Enter your password" [type]="signupPasswordType"
+                            autocomplete="off" formControlName="signupPassword">
+                        <span class="password-toggle-button">
+                            <a (click)="toggleSignupPasswordType()">{{signupPasswordHideShow}}</a>
+                        </span>
+                    </mat-form-field>
+                    <p class="field-error" *ngIf="(signupForm.controls.signupPassword.dirty && signupForm.controls.signupPassword.invalid)">
+                        Password must be at least 6 characters
+                    </p>
+                    <div class="signup-button-wrapper">
+                        <button mat-button class="login-button" (click)="signupWithEmail()" [disabled]="signupForm.invalid || !enableSignupButton">
+                            Signup
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</mat-card>
+<mat-card class="provider-login-card">
+    <div class="card-content-label">Sign in with</div>
+    <mat-divider class="content-divider"></mat-divider>
+    <div class="provider-login-button-wrapper">
+        <button mat-button class="google-login-button" (click)="loginWithGoogle()" [disabled]="!enableGoogleLoginButton">
+            <span class="google-login-button-img-wrapper">
+                <img class="google-login-button-img" src="../../../../assets/img/signinButtons/googleButtonIcon.svg" />
 
-<h2>Forgot password?</h2><br><br>
-Email: <input type="email" [(ngModel)]="forgotPasswordEmail"><br>
-<button (click)="sendResetEmail()">Send Reset Email</button><br><br>
+                <span class="">
+                    <div class="google-login-button-text">
+                        Sign in with Google
+                    </div>
+                </span>
+            </span>
+        </button>
 
-<button (click)="signOut()">Sign Out</button>
+        <button mat-button class="facebook-login-button" (click)="loginWithFacebook()" [disabled]="!enableFacebookLoginButton">
+            <span class="facebook-login-button-img-wrapper">
+                <img class="facebook-login-button-img" src="../../../../assets/img/signinButtons/facebookLogo.png" />
+                <div class="facebook-login-button-text">
+                    Sign in with Facebook
+                </div>
+            </span>
+        </button>
+    </div>
+</mat-card>

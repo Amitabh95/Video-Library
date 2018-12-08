@@ -1,3 +1,31 @@
-<h2>Admin</h2>
-
-<button (click)="createVideo()">Create Video Playlist</button>
+<h2>Admin Dashboard</h2>
+<!-- <button (click)="createVideo()">Create Video Playlist</button> -->
+<button (click)="addNewVideo()">Add new video</button>
+<div class="playlist-container" *ngIf="allVideo">
+    <div class="video-card" *ngFor="let data of allVideo ">
+      <span>
+        <a (click)="playVideo(data)">
+            <img class="video-thumbnail" [src]="data.URL.thumbnail" width="200px">
+        </a>
+        <div class="playlist-text-content">
+          <a (click)="playVideo(data)">
+            <h2 class="video-name">{{ data.name}}</h2>
+          </a>
+          <span>{{data.description}}</span>
+          <div class="video-details-strip">
+            <span>Added {{timeDifference(data.addedOn)}} ago</span>
+            <span class="playlist-episode" *ngIf="calculateEpisodes(data.episode) !== 0">{{calculateEpisodes(data.episode)}}</span>
+            <span class="playlist-episode">Added by: {{data.addedBy.name}}</span>
+            <span class="playlist-episode">{{data.likes.likes}} likes</span>
+            <span class="playlist-episode">{{data.views}} views</span>
+            <span class="playlist-episode">Genre: {{data.genre}}</span>
+          </div>
+          <br>
+          <button (click)="editVideo(data.videoID)">Edit Video</button>
+        </div>
+      </span>
+    </div>
+    <div>
+  
+    </div>
+  </div>

@@ -1,0 +1,23 @@
+<div *ngIf="data.purpose === 'forgotPassword'">
+  <form [formGroup]="forgotPasswordForm">
+    <div mat-dialog-content>
+      <p class="reset-password-text">Please enter your email to get password reset link</p>
+      <mat-form-field class="reset-password-email-field">
+        <input name="emailField" type="email" matInput (keyup)="emailInput($event)" formControlName="forgotPasswordEmail">
+      </mat-form-field>
+      <p class="email-error" *ngIf="(forgotPasswordForm.controls.forgotPasswordEmail.dirty && forgotPasswordForm.controls.forgotPasswordEmail.invalid)">
+        Please enter a valid email address
+      </p>
+    </div>
+    <div mat-dialog-actions class="reset-password-dialog-buttons-wrapper">
+      <button class="reset-password-dialog-buttons" mat-button [mat-dialog-close]="data" [disabled]="forgotPasswordForm.controls.forgotPasswordEmail.invalid"
+        cdkFocusInitial>
+        Send Link</button>
+      <button class="reset-password-dialog-buttons" mat-button (click)="onNoClick()">Cancel</button>
+    </div>
+  </form>
+</div>
+<!-- {{data.purpose}} -->
+<!-- <p>
+  Hiiwwwww!!
+</p> -->

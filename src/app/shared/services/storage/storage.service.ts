@@ -17,6 +17,10 @@ export class StorageService {
     localStorage.setItem('uid', uid);
   }
 
+  getUID() {
+    return localStorage.getItem('uid');
+  }
+
   isTokenPresent() {
     const token = localStorage.getItem('userToken');
     if (token) {

@@ -87,7 +87,7 @@ export class FirestoreDatabaseService implements OnDestroy {
   createNewVideoPlaylist(videoData) {
     const promise = new Promise((resolve, reject) => {
       this.angularFirestore.collection(`videos/`).doc(videoData.videoID).set(videoData)
-        .then((res) => {
+        .then(() => {
           const successResponse = {
             error: false,
             response: {
@@ -111,6 +111,7 @@ export class FirestoreDatabaseService implements OnDestroy {
     const promise = new Promise((resolve, reject) => {
       this.angularFirestore.collection(`videos/`).get().toPromise().then((response: any) => {
         let i = 1;
+        this.videoPlaylistArray = [];
         response.forEach((doc) => {
           this.videoPlaylistArray.push(doc.data());
           if (i === response.size) {
@@ -157,42 +158,86 @@ export class FirestoreDatabaseService implements OnDestroy {
   }
 
   incrementSeriesVideoLike(videoData, episodeID, uid) {
-    console.log('videoData--> ', videoData);
-    console.log('episodeID--> ', episodeID);
-    console.log('uid--> ', uid);
-    if (episodeID === null) {
-      let likes = videoData.likes.likes;
-      let likedBy = videoData.likes.likedBy;
-      likes++;
-      likedBy.push(uid);
-      const dataForUpdating = {
-        likes: {
-          likes: likes,
-          likedBy: likedBy
-        }
-      };
-      this.angularFirestore.collection(`videos/`).doc(videoData.videoID)
-        .set(dataForUpdating, { merge: true }).then((result) => {
-          console.log('Result--> ', result);
-        });
-    } else {
-      let episode = videoData.episode;
-      let episodeLikes = videoData.episode[episodeID].likes.likes;
-      const episodeLikedBy = videoData.episode[episodeID].likes.likedBy;
-      episodeLikes++;
-      episodeLikedBy.push(uid);
-      const dataForUpdating = {
-        likes: {
+    const promise = new Promise((resolve, reject) => {
+      if (episodeID === null) {
+        let likes = videoData.likes.likes;
+        let likedBy = videoData.likes.likedBy;
+        likes++;
+        likedBy.push(uid);
+        const dataForUpdating = {
+          likes: {
+            likes: likes,
+            likedBy: likedBy
+          }
+        };
+        this.angularFirestore.collection(`videos/`).doc(videoData.videoID)
+          .set(dataForUpdating, { merge: true }).then(() => {
+            const successResponse = {
+              error: false,
+              response: {
+                message: 'Like updated'
+              }
+            };
+            resolve(successResponse);
+          }).catch((error) => {
+            const errorResponse = {
+              error: true,
+              errorDetails: error
+            };
+            reject(errorResponse);
+          });
+      } else {
+        let episode = videoData.episode;
+        let episodeLikes = videoData.episode[episodeID].likes.likes;
+        const episodeLikedBy = videoData.episode[episodeID].likes.likedBy;
+        episodeLikes++;
+        episodeLikedBy.push(uid);
+        const dataForUpdating = {
           likes: episodeLikes,
           likedBy: episodeLikedBy
-        }
-      };
-      episode[episodeID].likes = dataForUpdating;
-      console.log('Episode updated: ', episode[episodeID]);
+        };
+        episode[episodeID].likes = dataForUpdating;
+        this.angularFirestore.collection(`videos/`).doc(videoData.videoID)
+          .set({ episode: episode }, { merge: true }).then(() => {
+            const successResponse = {
+              error: false,
+              response: {
+                message: 'Like updated'
+              }
+            };
+            resolve(successResponse);
+          }).catch((error) => {
+            const errorResponse = {
+              error: true,
+              errorDetails: error
+            };
+            reject(errorResponse);
+          });
+      }
+    });
+    return promise;
+  }
+
+  increamentViews(videoData, episodeID) {
+    if (episodeID === null) {
+      let videoViews = videoData.views;
+      videoViews++;
       this.angularFirestore.collection(`videos/`).doc(videoData.videoID)
-        .set(episode, { merge: true }).then((result) => {
-          console.log('Result--> ', result);
+        .set({ views: videoViews }, { merge: true }).then(() => {
+          console.log('Main video view increased');
+         });
+    } else {
+      // episodeID = Number(episodeID);
+      let episode = videoData.episode;
+      console.log('videoData--> ', videoData);
+      let episodeView = videoData.episode[episodeID].views;
+      episodeView++;
+      episode[episodeID].views = episodeView;
+      this.angularFirestore.collection(`videos/`).doc(videoData.videoID)
+        .set({ episode: episode }, { merge: true }).then(() => { 
+          console.log('episode video view increased');
         });
+
     }
   }
 
