@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material';
 import { MaterialDialogComponent } from '../../shared-components/material-dialog/material-dialog.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MaterialLoaderServeService } from 'src/app/common-custom-modules/material-loader/material-loader.module';
 
 @Component({
   selector: 'app-login',
@@ -34,6 +35,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private angularFirestore: FirestoreDatabaseService,
     private toastrAlert: ToastrService,
+    private loaderService: MaterialLoaderServeService,
     private dialog: MatDialog,
     private formBuilder: FormBuilder
   ) {
@@ -109,70 +111,90 @@ export class LoginComponent implements OnInit {
   }
 
   loginWithGoogle() {
+    this.loaderService.show();
     this.enableGoogleLoginButton = false;
     this.authService.googleLogin().then((response: any) => {
+      this.loaderService.hide();
       if (!response.error) {
         this.toastrAlert.success('Login Successful!!');
         this.saveUserData(response);
       }
     }).catch((error: any) => {
+      this.loaderService.hide();
       this.enableGoogleLoginButton = true;
       this.toastrAlert.error(error.errorDetails.message);
     });
   }
 
   loginWithFacebook() {
+    this.loaderService.show();
     this.enableFacebookLoginButton = false;
     this.authService.facebookLogin().then((response: any) => {
+      this.loaderService.hide();
       if (!response.error) {
         this.toastrAlert.success('Login Successful!!');
         this.saveUserData(response);
       }
     }).catch((error) => {
+      this.loaderService.hide();
       this.enableFacebookLoginButton = true;
       this.toastrAlert.error(error.errorDetails.message);
     });
   }
 
   signupWithEmail() {
+    this.loaderService.show();
     this.enableSignupButton = false;
-    this.authService.emailSignUp(this.signupEmail, this.signupPassword)
+    this.authService
+    .emailSignUp(this.signupForm.controls.signupEmail.value, this.signupForm.controls.signupPassword.value)
       .then((signupData: any) => {
+        this.loaderService.hide();
         if (!signupData.error) {
-          this.toastrAlert.success('Confirmation mail has been sent to your email. Please confirm your email');
+          this.toastrAlert.success('Confirmation mail has been sent to your email. Please confirm your email to sign in.');
         }
       }).catch((error: any) => {
+        this.loaderService.hide();
         this.enableSignupButton = true;
         this.toastrAlert.error(error.errorDetails.message);
       });
   }
 
   loginWithEmail() {
+    this.loaderService.show();
     this.enableEmailLoginButton = false;
-    this.authService.loginWithEmail(this.loginEmail, this.loginPassword).then((loginData: any) => {
+    this.authService
+    .loginWithEmail(this.loginForm.controls.loginEmail.value, this.loginForm.controls.loginPassword.value)
+    .then((loginData: any) => {
+      this.loaderService.hide();
       if (!loginData.error) {
         this.toastrAlert.success('Sign in successful.');
         this.saveUserData(loginData);
       }
     }).catch((error: any) => {
+      this.loaderService.hide();
       this.enableEmailLoginButton = true;
       this.toastrAlert.error(error.errorDetails.message);
     });
   }
 
   sendResetEmail(email) {
+    this.loaderService.show();
     this.authService.forgotPassword(email)
       .then((successResponse: any) => {
+        this.loaderService.hide();
         if (!successResponse.error) {
           this.toastrAlert.success(successResponse.message);
         }
       }).catch((errorResponse: any) => {
+        this.loaderService.hide();
         this.toastrAlert.error(errorResponse.errorDetails.message);
       });
   }
 
   signOut() {
+    this.loaderService.show();
     this.authService.signOut().then((logoutValue) => {
+      this.loaderService.hide();
       this.authService.checkLoginStatus()
         .then((value) => {
         });

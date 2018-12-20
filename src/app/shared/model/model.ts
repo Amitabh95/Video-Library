@@ -39,3 +39,7 @@ export class LoggedInUserDataInResponse {
         uid: string;
     };
 }
+
+export class LoaderState {
+    show: boolean;
+}

@@ -1,0 +1,12 @@
+<!-- <div [class.loader-hidden]="!show">
+  <div class="loader-overlay">
+    <div>
+      <mat-spinner mode="indeterminate" *ngIf="show"></mat-spinner>
+    </div>
+  </div>
+</div> -->
+<div *ngIf="show" class="loader-wrapper">
+  <!-- <div class="loader-container"> -->
+    <mat-spinner mode="indeterminate"></mat-spinner>
+  <!-- </div> -->
+</div>

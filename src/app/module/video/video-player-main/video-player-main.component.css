@@ -39,3 +39,96 @@
 .video-name {
     cursor: pointer;
 }
+
+
+/* Material Card Properties */
+
+.material-video-card {
+    width: 1000px;
+    margin: 50px;
+    height: 124px;
+}
+
+.material-video-card-thumbnail {
+    display: inline-block;
+}
+
+.thumbnail-photo {
+    margin-top: 5px;
+}
+
+.material-video-card-content {
+    display: inline-block;
+    width: 750px;
+    padding-left: 20px;
+    vertical-align: top;
+}
+
+.material-video-card-title {
+    /* margin-bottom: 56px; */
+    font-weight: bold;
+}
+
+.material-video-card-title-wrapper {
+}
+
+.material-video-card-description {
+    /* margin-top: 10px; */
+    margin-top: 18px;
+}
+
+.video-card-information-strip {
+    margin-top: -6px;
+}
+
+.information-strip-items {
+    padding-right: 5px;
+}
+
+.divider-star {
+    font-size: 11px;
+    padding-right: 5px;
+}
+
+
+/* New logic */
+.current-video-thumbnail-wrapper {
+    display: inline-block;
+}
+
+.current-video-thumbanail-image {
+    width: 400px;
+}
+
+.current-video-data-wrapper {
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+.current-video-content-wrapper {
+    width: 900px;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 20px;
+}
+
+.current-video-video-title {
+    font-weight: Bold;
+    font-size: 24px;
+}
+
+.current-video-description {
+    margin-top: 20px;
+}
+
+.video-related-details-wrapper {
+    margin-top: 15px;
+}
+
+.video-related-details-items {
+    margin-right: 10px;
+}
+
+.current-video-play-video {
+    margin-top: 20px;
+}

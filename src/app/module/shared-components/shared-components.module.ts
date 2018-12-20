@@ -13,6 +13,8 @@ import { MaterialCoreModule } from 'src/app/material.module';
     ReactiveFormsModule,
     SharedComponentsRoutingModule,
     MaterialCoreModule
-  ]
+  ],
+  exports: [],
+  providers: []
 })
 export class SharedComponentsModule { }

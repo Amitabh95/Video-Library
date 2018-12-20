@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from 'src/environments/environment';
@@ -19,6 +18,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { HttpClientModule, HttpClient  } from '@angular/common/http';
 import { MaterialDialogComponent } from './module/shared-components/material-dialog/material-dialog.component';
 import { MaterialCoreModule } from './material.module';
+import { MaterialLoaderModule } from './common-custom-modules/material-loader/material-loader.module';
 
 @NgModule({
   declarations: [
@@ -42,7 +42,8 @@ import { MaterialCoreModule } from './material.module';
     ToastrModule.forRoot(),
     MaterialCoreModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MaterialLoaderModule.forRoot()
   ],
   providers: [
     FirebaseAuthenticationService,

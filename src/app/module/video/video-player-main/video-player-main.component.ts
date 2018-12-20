@@ -29,6 +29,7 @@ export class VideoPlayerMainComponent implements OnInit, OnDestroy {
   player: YT.Player;
   playerVideoID: string;
   loadPlayer: boolean;
+  thumbnail: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -61,6 +62,7 @@ export class VideoPlayerMainComponent implements OnInit, OnDestroy {
           this.videoLiked = false;
           this.videoViews = this.videoPlaylist.views;
           this.videoURL = this.videoPlaylist.URL;
+          this.thumbnail = this.videoPlaylist.URL.thumbnail;
           this.episodeVideoList = this.videoPlaylist.episode;
           this.videoPlaylist.likes.likedBy.forEach(element => {
             if (element === this.uid) {
@@ -81,6 +83,7 @@ export class VideoPlayerMainComponent implements OnInit, OnDestroy {
         if (!result.error) {
           this.videoPlaylist = result.response;
           this.episodeVideoData = result.response.episode[this.episodeID];
+          console.log('Episode XX --> ', this.episodeVideoData);
           this.videoLikes = this.episodeVideoData.likes.likes;
           this.videoViews = this.episodeVideoData.views;
           this.episodeVideoList = this.videoPlaylist.episode;
@@ -92,6 +95,7 @@ export class VideoPlayerMainComponent implements OnInit, OnDestroy {
           });
           this.videoURL = this.episodeVideoData.URL;
           this.videoLiked = false;
+          this.thumbnail = this.episodeVideoData.URL.thumbnail;
           this.episodeVideoData.likes.likedBy.forEach(element => {
             if (element === this.uid) {
               this.videoLiked = true;
@@ -163,21 +167,21 @@ export class VideoPlayerMainComponent implements OnInit, OnDestroy {
   initiatePlayer(videoURL) {
     this.loadPlayer = false;
       this.videoContainer = this.embedVideo.embed(videoURL,
-                              { query: { autoplay: 1, rel: 0, origin: 'localhost:4200' },
-                                attr: { width: 800, height: 500, id: 'iframe-video-tag' }
+                              { query: { autoplay: 0, rel: 0, origin: 'localhost:4200' },
+                                attr: { width: 900, height: 500, id: 'iframe-video-tag' }
                               });
       this.loadPlayer = true;
-      this.getIframTag();
+      // this.getIframTag();
   }
 
-  getIframTag() {
-    // setTimeout( function() {
-      const tag = document.getElementById('iframe-video-tag');
-      // const that = this;
-      // tag.oncanplay = that.clickIframe();
-      console.log('iframe tag--> ', tag);
-    // }, 500);
-  }
+  // getIframTag() {
+  //   // setTimeout( function() {
+  //     const tag = document.getElementById('iframe-video-tag');
+  //     // const that = this;
+  //     // tag.oncanplay = that.clickIframe();
+  //     console.log('iframe tag--> ', tag);
+  //   // }, 500);
+  // }
 
   consoleValue() {
     console.log('clicked iframe');

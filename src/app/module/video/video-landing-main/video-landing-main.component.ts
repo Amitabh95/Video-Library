@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FirebaseAuthenticationService } from 'src/app/shared/services/firebase/firebaseAuthentication/firebase-authentication.service';
 import { Router } from '@angular/router';
 import { FirestoreDatabaseService } from 'src/app/shared/services/firebase/firestoreDatabase/firestore-database.service';
+import { MaterialLoaderModule, MaterialLoaderServeService } from 'src/app/common-custom-modules/material-loader/material-loader.module';
 
 @Component({
   selector: 'app-video-landing-main',
@@ -11,13 +12,32 @@ import { FirestoreDatabaseService } from 'src/app/shared/services/firebase/fires
 export class VideoLandingMainComponent implements OnInit {
   allVideoPlaylist: any[] = [];
 
-  constructor(
+  // remove this
+  materialBoolean: boolean;
+  withoutMaterialBoolean: boolean;
+
+  constructor
+    (
     private authService: FirebaseAuthenticationService,
     private firestoreDB: FirestoreDatabaseService,
-    private router: Router) { }
+    private router: Router,
+    private loaderService: MaterialLoaderServeService
+    ) {
+    // Remove this
+    this.materialBoolean = true;
+    this.withoutMaterialBoolean = true;
+  }
 
   ngOnInit() {
     this.getAllVideos();
+  }
+
+  withoutMaterial() {
+    this.withoutMaterialBoolean = !this.withoutMaterialBoolean;
+  }
+
+  material() {
+    this.materialBoolean = !this.materialBoolean;
   }
 
   signOut() {
@@ -34,14 +54,21 @@ export class VideoLandingMainComponent implements OnInit {
   }
 
   getAllVideos() {
-    this.firestoreDB.getAllVideoPlaylist().then((response: any) => {
-      this.allVideoPlaylist = response.response;
-      console.log('Video Playlist before--> ', this.allVideoPlaylist);
-      this.allVideoPlaylist = this.sortSeries();
-      console.log('Video Playlist after--> ', this.allVideoPlaylist);
-    }).catch((error) => {
-      console.log('Error---> ', error);
-    });
+    this.loaderService.show();
+    const cachedData = JSON.parse(localStorage.getItem('cachedPlaylist'));
+    if (cachedData) {
+      this.allVideoPlaylist = cachedData;
+      this.loaderService.hide();
+    } else {
+      this.firestoreDB.getAllVideoPlaylist().then((response: any) => {
+        this.loaderService.hide();
+        this.allVideoPlaylist = response.response;
+        this.allVideoPlaylist = this.sortSeries();
+        localStorage.setItem('cachedPlaylist', JSON.stringify(this.allVideoPlaylist));
+      }).catch((error) => {
+        console.log('Error---> ', error);
+      });
+    }
   }
 
   timeDifference(timestamp) {

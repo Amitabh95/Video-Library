@@ -3,8 +3,14 @@
 </p>
 
 <button (click)="navigateBack()">Go Back</button>
+
 <div *ngIf="videoPlaylist && !isEpisode">
-  <h2>{{videoPlaylist.name}}</h2>
+  <div class="current-video-data-wrapper">
+    <div class="current-video-thumbnail-wrapper">
+      <img class="current-video-thumbanail-image" [src]="thumbnail" />
+    </div>
+  </div>
+  <!-- <h2>{{videoPlaylist.name}}</h2>
   <div [innerHtml]="videoContainer"></div>
   <div class="video-detail-card">
     <span class="">{{videoPlaylist.description}}</span>
@@ -14,7 +20,7 @@
       <span *ngIf="videoPlaylist.views === 1 || videoPlaylist.views === 0">{{videoPlaylist.views}} view</span>
       <span *ngIf="videoPlaylist.views > 1">{{videoPlaylist.views}} views</span>
     </div>
-  </div>
+  </div> -->
   <div class="video-card" *ngFor="let data of episodeVideoList ">
     <span>
       <a (click)="playVideo(data)">
@@ -40,10 +46,50 @@
 
 
 <div *ngIf="isEpisode && episodeVideoData">
-  <h2>{{episodeVideoData.name}}</h2>
+  <div class="current-video-data-wrapper">
+    <div class="current-video-thumbnail-wrapper">
+      <img class="current-video-thumbanail-image" [src]="thumbnail" />
+    </div>
+    <div class="current-video-content-wrapper">
+      <div class="current-video-video-title">
+        {{episodeVideoData.name}}
+      </div>
+      <div class="current-video-description">
+        {{episodeVideoData.description}}
+      </div>
+      <div class="video-related-details-wrapper">
+          <span class="video-related-details-items">
+            Added By: {{episodeVideoData.addedBy.name}}
+          </span>
+          <span class="video-related-details-items">
+            Added {{timeDifference(episodeVideoData.addedOn)}} ago
+          </span>
+          <span class="video-related-details-items" *ngIf="videoLikes === 1 || videoLikes === 0">
+            {{videoLikes}} like
+          </span>
+          <span class="video-related-details-items" *ngIf="videoLikes > 1">
+            {{videoLikes}} likes
+          </span>
+          <span class="video-related-details-items" *ngIf="episodeVideoData.views === 1 || episodeVideoData.views === 0">
+            {{episodeVideoData.views}} view
+          </span>
+          <span class="video-related-details-items" *ngIf="episodeVideoData.views > 1">
+            {{episodeVideoData.views}} views
+          </span>
+      </div>
+      <div class="current-video-play-video">
+        <button>
+          <span>
+            
+          </span>
+          <span>Play Video</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- <h2>{{episodeVideoData.name}}</h2>
   <div *ngIf="loadPlayer">
     <div (click)="playerEvent($event)" [innerHtml]="videoContainer"></div>
-    <!-- <youtube-player [videoId]="playerVideoID" (ready)="savePlayer($event)" (change)="onStateChange($event)"></youtube-player> -->
   </div>
   <div class="video-detail-card">
     <span class="">{{episodeVideoData.description}}</span>
@@ -53,7 +99,8 @@
       <span *ngIf="episodeVideoData.views === 1 || episodeVideoData.views === 0">{{episodeVideoData.views}} view</span>
       <span *ngIf="episodeVideoData.views > 1">{{episodeVideoData.views}} views</span>
     </div>
-  </div>
+  </div> -->
+
   <div class="video-card" *ngFor="let data of otherEpisodeList ">
     <span>
       <a (click)="playVideo(data)">

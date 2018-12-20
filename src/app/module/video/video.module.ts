@@ -6,13 +6,15 @@ import { EmbedVideoService } from 'ngx-embed-video';
 import { VideoRoutingModule } from './video-routing.module';
 import { VideoLandingMainComponent } from './video-landing-main/video-landing-main.component';
 import { VideoPlayerMainComponent } from './video-player-main/video-player-main.component';
+import { MaterialCoreModule } from 'src/app/material.module';
 
 @NgModule({
   declarations: [VideoLandingMainComponent, VideoPlayerMainComponent],
   imports: [
     YoutubePlayerModule,
     CommonModule,
-    VideoRoutingModule
+    VideoRoutingModule,
+    MaterialCoreModule
   ],
   providers: [EmbedVideoService]
 })

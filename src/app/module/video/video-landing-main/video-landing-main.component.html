@@ -1,14 +1,10 @@
-<p>
-  video-landing-main works!
-</p>
-
 <button (click)="signOut()">Logout</button><br><br><br>
 
-<div class="playlist-container" *ngIf="allVideoPlaylist">
+<!-- <div class="playlist-container" *ngIf="allVideoPlaylist && withoutMaterialBoolean">
   <div class="video-card" *ngFor="let data of allVideoPlaylist ">
     <span>
       <a (click)="playVideo(data)">
-          <img class="video-thumbnail" [src]="data.URL.thumbnail" width="200px">
+        <img class="video-thumbnail" [src]="data.URL.thumbnail" width="200px">
       </a>
       <div class="playlist-text-content">
         <a (click)="playVideo(data)">
@@ -29,4 +25,52 @@
   <div>
 
   </div>
+</div> -->
+
+<div *ngIf="allVideoPlaylist && materialBoolean">
+  <mat-card class="material-video-card" *ngFor="let data of allVideoPlaylist">
+    <!-- <span> -->
+      <div (click)="playVideo(data)" class="material-video-card-thumbnail">
+        <img class="thumbnail-photo" [src]="data.URL.thumbnail" width="200px">
+      </div>
+      <div class="material-video-card-content">
+        <div (click)="playVideo(data)" class="material-video-card-title-wrapper">
+          <mat-card-title class="material-video-card-title">{{data.name}}</mat-card-title>
+        </div>
+        <div>
+          <mat-card-subtitle>
+            <div class="video-card-information-strip">
+              <span class="information-strip-items">
+                Added by: {{data.addedBy.name}}
+              </span>
+              <span class="divider-star">*</span>
+              <span class="information-strip-items">
+                Added {{timeDifference(data.addedOn)}} ago
+              </span>
+              <span class="divider-star">*</span>
+              <span class="information-strip-items" *ngIf="calculateEpisodes(data.episode) !== 0">
+                {{calculateEpisodes(data.episode)}}
+              </span>
+              <span class="divider-star">*</span>
+              <span class="information-strip-items">
+                {{data.likes.likes}} likes
+              </span>
+              <span class="divider-star">*</span>
+              <span class="information-strip-items">
+                {{data.views}} views
+              </span>
+              <span class="divider-star">*</span>
+              <span class="information-strip-items">
+                Genre: {{data.genre}}
+              </span>
+            </div>
+            <div class="material-video-card-description">
+              {{data.description}}
+            </div>
+          </mat-card-subtitle>
+        </div>
+      </div>
+      <!-- <mat-divider></mat-divider> -->
+    <!-- </span> -->
+  </mat-card>
 </div>
