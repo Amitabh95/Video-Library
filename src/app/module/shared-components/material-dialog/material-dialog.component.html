@@ -17,7 +17,11 @@
     </div>
   </form>
 </div>
-<!-- {{data.purpose}} -->
-<!-- <p>
-  Hiiwwwww!!
-</p> -->
+<div *ngIf="data.purpose === 'playVideo'">
+  <div (click)="closeVideoBox()" class="dialogue-close-button">
+    <img class="close-button-image" src="../../../../assets/img/close_button_red.png">
+  </div>
+  <div (click)="clickout($event)" class="video-player">
+      <div  #videoContainerBox [innerHtml]="videoIframeTag"></div>
+  </div>
+</div>
