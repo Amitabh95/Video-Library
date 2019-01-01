@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirestoreDatabaseService } from 'src/app/shared/services/firebase/firestoreDatabase/firestore-database.service';
 import { EmbedVideoService } from 'ngx-embed-video';
+import { MatDialog } from '@angular/material';
+import { MaterialDialogComponent } from '../../shared-components/material-dialog/material-dialog.component';
 
 @Component({
   selector: 'app-video-player-main',
@@ -30,12 +32,15 @@ export class VideoPlayerMainComponent implements OnInit, OnDestroy {
   playerVideoID: string;
   loadPlayer: boolean;
   thumbnail: string;
+  previousEpisodes: any[] = [];
+  nextEpisodes: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private firestoreDB: FirestoreDatabaseService,
-    private embedVideo: EmbedVideoService
+    private embedVideo: EmbedVideoService,
+    private dialog: MatDialog
   ) {
     this.isEpisode = false;
     this.isVideoPlayedFirstTime = true;
@@ -83,14 +88,22 @@ export class VideoPlayerMainComponent implements OnInit, OnDestroy {
         if (!result.error) {
           this.videoPlaylist = result.response;
           this.episodeVideoData = result.response.episode[this.episodeID];
-          console.log('Episode XX --> ', this.episodeVideoData);
           this.videoLikes = this.episodeVideoData.likes.likes;
           this.videoViews = this.episodeVideoData.views;
           this.episodeVideoList = this.videoPlaylist.episode;
-          this.otherEpisodeList = [];
-          this.episodeVideoList.forEach(element => {
-            if (element.sortOrder !== this.episodeID) {
-              this.otherEpisodeList.push(element);
+          this.previousEpisodes = [];
+          this.nextEpisodes = [];
+          this.episodeVideoList.forEach((element, index) => {
+            if (this.episodeID === 0) {
+                if (element.sortOrder !== this.episodeID) {
+                  this.nextEpisodes.push(element);
+                }
+            } else {
+              if (index < this.episodeID) {
+                this.previousEpisodes.push(element);
+              } else if (index > this.episodeID) {
+                this.nextEpisodes.push(element);
+              }
             }
           });
           this.videoURL = this.episodeVideoData.URL;
@@ -109,12 +122,9 @@ export class VideoPlayerMainComponent implements OnInit, OnDestroy {
   }
 
   playVideo(data) {
-    this.router.navigate(['/player'], { queryParams: { videoID: data.videoID} });
+    this.router.navigate(['/player'], { queryParams: { videoID: data.videoID } });
+    window.scrollTo(0, 0);
     this.initiatePlayer(data.URL.video);
-  }
-
-  playerEvent(event) {
-    console.log('Player event---> ', event);
   }
 
   timeDifference(timestamp) {
@@ -166,60 +176,32 @@ export class VideoPlayerMainComponent implements OnInit, OnDestroy {
 
   initiatePlayer(videoURL) {
     this.loadPlayer = false;
-      this.videoContainer = this.embedVideo.embed(videoURL,
-                              { query: { autoplay: 0, rel: 0, origin: 'localhost:4200' },
-                                attr: { width: 900, height: 500, id: 'iframe-video-tag' }
-                              });
-      this.loadPlayer = true;
-      // this.getIframTag();
+    this.videoContainer = this.embedVideo.embed(videoURL,
+      {
+        query: { autoplay: 1, rel: 0 },
+        attr: { width: 900, height: 500, id: 'iframe-video-tag' }
+      });
+    this.loadPlayer = true;
   }
 
-  // getIframTag() {
-  //   // setTimeout( function() {
-  //     const tag = document.getElementById('iframe-video-tag');
-  //     // const that = this;
-  //     // tag.oncanplay = that.clickIframe();
-  //     console.log('iframe tag--> ', tag);
-  //   // }, 500);
-  // }
-
-  consoleValue() {
-    console.log('clicked iframe');
+  printLike() {
+    console.log('liked: ', this.videoLiked);
   }
 
-/*
-  onPlayerStateChange(event) {
-    console.log('Hello..', event);
-    switch (event.data) {
-      case window['YT'].PlayerState.PLAYING:
-      if (this.isVideoPlayedFirstTime === true) {
-        this.increamentView();
-        this.isVideoPlayedFirstTime = false;
+  openVideoDialog() {
+    const dialogRef = this.dialog.open(MaterialDialogComponent, {
+      height: '560px',
+      width: '950px',
+      panelClass: 'video-player',
+      data: {
+        purpose: 'playVideo',
+        videoIframeTag: this.videoContainer
       }
-        if (this.cleanTime() === 0) {
-          console.log('started ' + this.cleanTime());
-        } else {
-          console.log('playing ' + this.cleanTime());
-        }
-        break;
-      case window['YT'].PlayerState.PAUSED:
-        if (this.player.getDuration() - this.player.getCurrentTime() !== 0) {
-          console.log('paused' + ' @ ' + this.cleanTime());
-          localStorage.setItem('pause-time', this.cleanTime().toString());
-        }
-        break;
-      case window['YT'].PlayerState.ENDED:
-        console.log('ended ');
-        break;
-    }
+    });
   }
-
-  cleanTime() {
-    return Math.round(this.player.getCurrentTime());
-  }
-*/
 
   increamentView() {
+    this.videoViews++;
     if (!this.isEpisode) {
       this.firestoreDB.increamentViews(this.videoPlaylist, null);
     } else {
