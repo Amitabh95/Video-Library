@@ -25,20 +25,16 @@
     margin-bottom: 30px;
 }
 .playlist-container {
-    margin-left: 150px
+    margin-left: 150px;
 }
-.playlist-episode {
-    margin-left: 35px 
-}
+
 .video-details-strip {
     margin-top: 10px
 }
 .video-thumbnail {
     cursor: pointer;
 }
-.video-name {
-    cursor: pointer;
-}
+
 
 
 /* Material Card Properties */
@@ -98,18 +94,19 @@
 
 .current-video-thumbanail-image {
     width: 400px;
+    margin-left: -13px;
 }
 
 .current-video-data-wrapper {
-    margin-left: 60px;
-    margin-right: 60px;
+    margin-left: 30px;
+    margin-right: 30px;
 }
 
 .current-video-content-wrapper {
-    width: 900px;
+    width: 700px;
     display: inline-block;
     vertical-align: top;
-    margin-left: 20px;
+    margin-left: 46px;
 }
 
 .current-video-video-title {
@@ -131,4 +128,65 @@
 
 .current-video-play-video {
     margin-top: 20px;
+}
+
+.current-video-material-card {
+    width: 1200px;
+    margin: 0px auto;
+}
+
+.play-button-image {
+    width: 30px;
+    margin-top: 3px;
+    margin-left: -6px;
+    position: absolute;
+}
+
+.play-button-text {
+    color: white;
+    font-weight: bold;
+    margin-left: 29px;
+}
+
+.play-button-image-wrapper {
+} 
+
+.play-button {
+    background-color: #3700b3;
+    position: relative;
+}
+
+.episode-video-cards {
+    width: 900px;
+    margin-bottom: 20px;
+    /* margin: 0px auto; */
+}
+.episode-list-thumbnail-wrapper {
+    display: inline-block;
+}
+
+.episode-list-video-thumbnail {
+    width: 175px;
+}
+
+.episode-list-details-wrapper {
+    vertical-align: top;
+    display: inline-block;
+    width: 700px;
+    margin-left: 19px;
+    margin-top: -12px;
+}
+
+.episode-video-details-element {
+    margin-left: 20px;
+}
+
+.main-video-name {
+    cursor: pointer;
+    margin-top: -12px;
+}
+
+.like-button {
+    background-color: #3700b3;
+    position: relative;
 }
