@@ -224,18 +224,15 @@ export class FirestoreDatabaseService implements OnDestroy {
       videoViews++;
       this.angularFirestore.collection(`videos/`).doc(videoData.videoID)
         .set({ views: videoViews }, { merge: true }).then(() => {
-          console.log('Main video view increased');
          });
     } else {
       // episodeID = Number(episodeID);
       let episode = videoData.episode;
-      console.log('videoData--> ', videoData);
       let episodeView = videoData.episode[episodeID].views;
       episodeView++;
       episode[episodeID].views = episodeView;
       this.angularFirestore.collection(`videos/`).doc(videoData.videoID)
-        .set({ episode: episode }, { merge: true }).then(() => { 
-          console.log('episode video view increased');
+        .set({ episode: episode }, { merge: true }).then(() => {
         });
 
     }
