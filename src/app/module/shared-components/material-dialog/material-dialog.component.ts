@@ -9,11 +9,12 @@ import { FormBuilder, FormArray, FormControl, FormGroup, Validators } from '@ang
 })
 export class MaterialDialogComponent implements OnInit {
   forgotPasswordForm: FormGroup;
+  videoIframeTag: any;
 
   constructor(
     public dialogRef: MatDialogRef<MaterialDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private formBuilder: FormBuilder,
+    private formBuilder: FormBuilder
   ) { }
 
   onNoClick(): void {
@@ -25,7 +26,13 @@ export class MaterialDialogComponent implements OnInit {
       this.forgotPasswordForm = this.formBuilder.group({
         forgotPasswordEmail: new FormControl('', [Validators.required, Validators.email])
       });
+    } else if (this.data.purpose === 'playVideo') {
+      this.videoIframeTag = this.data.videoIframeTag;
     }
+  }
+
+  closeVideoBox() {
+    this.dialogRef.close();
   }
 
   emailInput(event) {
