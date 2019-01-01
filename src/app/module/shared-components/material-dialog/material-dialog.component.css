@@ -20,3 +20,17 @@
     margin-top: -18px;
     color: red;
 }
+
+.video-player {
+    position: relative;
+}
+
+.dialogue-close-button {
+    position: absolute;
+    margin-top: -37px;
+    margin-left: 909px;
+}
+
+.close-button-image {
+    width: 30px;
+}
