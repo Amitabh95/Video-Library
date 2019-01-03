@@ -1,9 +1,9 @@
 <h2>Admin Dashboard</h2>
 <!-- <button (click)="createVideo()">Create Video Playlist</button> -->
 <div class="add-new-video-button-wrapper">
-    <button mat-button class="add-new-video-button" (click)="addNewVideo()">
-      <div class="add-new-video-button-text">Add New Video</div>
-    </button>
+  <button mat-button class="add-new-video-button" (click)="addNewVideo()">
+    <div class="add-new-video-button-text">Add New Video</div>
+  </button>
 </div>
 
 <div class="playlist-container" *ngIf="allVideo">
@@ -11,14 +11,10 @@
     <mat-card-content>
       <span class="video-card-content">
         <span>
-          <a (click)="playVideo(data)">
-            <img class="video-thumbnail-image" [src]="data.URL.thumbnail">
-          </a>
+          <img class="video-thumbnail-image" [src]="data.URL.thumbnail">
         </span>
         <span class="playlist-text-content">
-          <a (click)="playVideo(data)">
-            <div class="video-name">{{ data.name}}</div>
-          </a>
+          <div class="video-name">{{ data.name}}</div>
           <div class="video-card-description">{{data.description}}</div>
           <div class="video-details-strip">
             <span>Added {{timeDifference(data.addedOn)}} ago</span>
@@ -64,7 +60,7 @@
                   <div class="number-text">{{i + 1}}</div>
                 </span>
                 <span class="episode-video-name">
-                    {{episode.name}}
+                  {{episode.name}}
                 </span>
               </span>
             </mat-card>
