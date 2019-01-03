@@ -1,31 +1,79 @@
 <h2>Admin Dashboard</h2>
 <!-- <button (click)="createVideo()">Create Video Playlist</button> -->
-<button (click)="addNewVideo()">Add new video</button>
+<div class="add-new-video-button-wrapper">
+    <button mat-button class="add-new-video-button" (click)="addNewVideo()">
+      <div class="add-new-video-button-text">Add New Video</div>
+    </button>
+</div>
+
 <div class="playlist-container" *ngIf="allVideo">
-    <div class="video-card" *ngFor="let data of allVideo ">
-      <span>
-        <a (click)="playVideo(data)">
-            <img class="video-thumbnail" [src]="data.URL.thumbnail" width="200px">
-        </a>
-        <div class="playlist-text-content">
+  <mat-card class="video-card" *ngFor="let data of allVideo ">
+    <mat-card-content>
+      <span class="video-card-content">
+        <span>
           <a (click)="playVideo(data)">
-            <h2 class="video-name">{{ data.name}}</h2>
+            <img class="video-thumbnail-image" [src]="data.URL.thumbnail">
           </a>
-          <span>{{data.description}}</span>
+        </span>
+        <span class="playlist-text-content">
+          <a (click)="playVideo(data)">
+            <div class="video-name">{{ data.name}}</div>
+          </a>
+          <div class="video-card-description">{{data.description}}</div>
           <div class="video-details-strip">
             <span>Added {{timeDifference(data.addedOn)}} ago</span>
-            <span class="playlist-episode" *ngIf="calculateEpisodes(data.episode) !== 0">{{calculateEpisodes(data.episode)}}</span>
+            <!-- <span class="playlist-episode" *ngIf="calculateEpisodes(data.episode) !== 0">{{calculateEpisodes(data.episode)}}</span> -->
             <span class="playlist-episode">Added by: {{data.addedBy.name}}</span>
-            <span class="playlist-episode">{{data.likes.likes}} likes</span>
-            <span class="playlist-episode">{{data.views}} views</span>
+            <span class="playlist-episode" *ngIf="data.likes.likes === 1 || data.likes.likes === 0">
+              {{data.likes.likes}} like
+            </span>
+            <span class="playlist-episode" *ngIf="data.likes.likes > 1">
+              {{data.likes.likes}} likes
+            </span>
+            <span class="playlist-episode" *ngIf="data.views === 1 || data.views === 0">
+              {{data.views}} view
+            </span>
+            <span class="playlist-episode" *ngIf="data.views > 1">
+              {{data.views}} views
+            </span>
             <span class="playlist-episode">Genre: {{data.genre}}</span>
           </div>
           <br>
-          <button (click)="editVideo(data.videoID)">Edit Video</button>
-        </div>
+          <!-- <button >Edit Video</button> -->
+        </span>
+        <span class="mat-card-buttons">
+          <button mat-button class="edit-button" (click)="editVideo(data.videoID)">
+            <div class="edit-video-button-text">Edit Video</div>
+          </button>
+        </span>
       </span>
-    </div>
-    <div>
-  
-    </div>
+      <div *ngIf="calculateEpisodes(data.episode) !== 0">
+        <mat-divider class="line-divider"></mat-divider>
+        <mat-accordion>
+          <mat-expansion-panel class="material-expansion-panel">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{calculateEpisodes(data.episode)}}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-divider></mat-divider>
+            <div class="padding-div"></div>
+            <mat-card class="episode-video-card" *ngFor="let episode of data.episode; let i = index;">
+              <span>
+                <span class="number-box">
+                  <div class="number-text">{{i + 1}}</div>
+                </span>
+                <span class="episode-video-name">
+                    {{episode.name}}
+                </span>
+              </span>
+            </mat-card>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <div>
+
   </div>
+</div>

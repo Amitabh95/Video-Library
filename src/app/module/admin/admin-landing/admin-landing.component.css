@@ -1,0 +1,124 @@
+.add-new-video-button-wrapper {
+    right: 40px;
+    position: absolute;
+}
+
+.add-new-video-button {
+    background-color: #3700B3;
+}
+
+.add-new-video-button-text {
+    color: white;
+}
+
+.video-card {
+    margin-bottom: 47px;
+    width: 1100px;
+    padding-bottom: 0px;
+    /* margin: 0px auto; */
+}
+
+.video-card-content {
+    /* display: inline-block; */
+}
+
+.video-thumbnail-image {
+    width: 213px;
+}
+
+.playlist-text-content {
+    width: 750px;
+    display: inline-block;
+    margin-left: 25px;
+    vertical-align: top;
+}
+
+.video-name {
+    font-weight: Bold;
+    font-size: 24px;
+}
+
+.video-card-description {
+    margin-top: 14px;
+}
+
+.video-details-strip {
+    margin-top: 14px;
+}
+
+.playlist-episode {
+    margin-left: 14px;
+}
+
+.mat-card-buttons {
+    display: inline-block;
+    width: 50px;
+    vertical-align: top;
+}
+
+.edit-button {
+    /* vertical-align: top; */
+    margin-top: 59px;
+    margin-left: 13px;
+    background-color: #3700B3; 
+}
+
+.edit-video-button-text {
+    color: white;
+}
+
+.material-expansion-panel {
+    margin-top: 10px;
+    margin-left: -16px;
+    margin-right: -16px;
+    margin-bottom: -16px;
+    box-shadow: none !important;
+    border-top-right-radius: 0px !important;
+    border-top-left-radius: 0px !important;
+}
+
+.line-divider {
+    margin-top: 0px;
+}
+
+.episode-video-card {
+    margin-top: 10px;
+    margin-bottom: 8px;
+    height: 18px;
+    padding-top: 0px;
+}
+
+.padding-div {
+    margin-bottom: 20px;
+}
+
+.number-box {
+    /* margin-top: -16px !important; */
+    border: 2px solid #3700B3;
+    display: inline-block;
+    width: 36px;
+    background-color: #3700B3;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    height: 31px;
+    margin-left: -16px;
+    position: relative;
+}
+
+.number-text {
+    margin: 0px auto;
+    font-size: 18px;
+    top: 7px;
+    left: 13px;
+    position: absolute;
+    font-weight: bold;
+    color: white;
+}
+
+.episode-video-name {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 11px;
+    font-size: 17px;
+    margin-left: 18px;
+}
