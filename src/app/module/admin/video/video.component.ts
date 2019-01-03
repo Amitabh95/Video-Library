@@ -4,6 +4,7 @@ import { FormBuilder, FormArray, FormControl, FormGroup, Validators } from '@ang
 import { StorageService } from 'src/app/shared/services/storage/storage.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
+import { videoGenres } from '../../../mainConfigFile';
 
 @Component({
   selector: 'app-video',
@@ -21,6 +22,8 @@ export class VideoComponent implements OnInit {
   forAddingNewVideo: boolean;
   videoIDForEditing: string;
   videoDataForEditing: any;
+  videoGenreList: any;
+  videoEpisodeArrayLength: number;
 
   constructor(
     private firestoreDB: FirestoreDatabaseService,
@@ -29,6 +32,7 @@ export class VideoComponent implements OnInit {
     private toasterAlert: ToastrService,
     private route: ActivatedRoute
   ) {
+    this.videoGenreList = videoGenres;
     this.addVideoForm = this.formBuilder.group({
       videoName: new FormControl('', [Validators.required]),
       videoDescription: new FormControl('', [Validators.required]),
@@ -81,6 +85,7 @@ export class VideoComponent implements OnInit {
     this.addVideoForm.controls.videoVideoURL.patchValue(data.URL.video);
     this.addVideoForm.controls.videoGenre.patchValue(data.genre);
     if (data.episode.length > 0) {
+      this.isEpisodePresent = true;
       data.episode.forEach((element, i) => {
         // this.addNewInputField();
         // this.addVideoForm.controls.videoEpisodeArray[i].patchValue(data.episode[i]);
@@ -94,11 +99,15 @@ export class VideoComponent implements OnInit {
           episodeVideoURL: element.URL.video
         }));
       });
+      const videoArray = <FormArray>this.addVideoForm.controls['videoEpisodeArray'];
+      this.videoEpisodeArrayLength = videoArray.controls.length;
     }
   }
 
   addNewInputField(): void {
+    console.log('ss ', this.addVideoForm);
     const control = <FormArray>this.addVideoForm.controls['videoEpisodeArray'];
+    this.videoEpisodeArrayLength = control.controls.length;
     control.push(this.initDynamicFields());
   }
 
@@ -215,7 +224,6 @@ export class VideoComponent implements OnInit {
         sortOrder: 0,
         views: 0
       };
-      console.log('Video aftr editing---> ', mainVideoData);
       this.firestoreDB.createNewVideoPlaylist(mainVideoData)
         .then((result: any) => {
           if (!result.error) {
