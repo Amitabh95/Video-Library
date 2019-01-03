@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminLandingComponent } from './admin-landing/admin-landing.component';
 import { VideoComponent } from './video/video.component';
+import { MaterialCoreModule } from 'src/app/material.module';
 
 @NgModule({
   declarations: [AdminLandingComponent, VideoComponent],
@@ -11,7 +12,8 @@ import { VideoComponent } from './video/video.component';
     CommonModule,
     AdminRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MaterialCoreModule
   ]
 })
 export class AdminModule { }
