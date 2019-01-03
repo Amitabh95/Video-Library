@@ -1,3 +1,8 @@
+.videoPlaylistWrapper {
+    margin: 0px auto;
+    width: 72%;
+}
+
 .playlist-text-content {
     width: 900px;
     display: inline-block;
@@ -37,6 +42,7 @@
 
 .material-video-card-thumbnail {
     display: inline-block;
+    cursor: pointer;
 }
 
 .thumbnail-photo {
@@ -56,7 +62,13 @@
 }
 
 .material-video-card-title-wrapper {
+    cursor: pointer;
 }
+
+.material-video-card-title-wrapper:hover {
+    text-decoration: underline;
+    color: blue;
+  }
 
 .material-video-card-description {
     /* margin-top: 10px; */
