@@ -65,40 +65,48 @@
   </mat-card>
 
   <br><br>
-  Episode Videos:
-  <mat-card class="episode-video-cards" *ngFor="let data of episodeVideoList ">
-    <mat-card-content>
-      <span class="episode-list-thumbnail-wrapper">
-        <a (click)="playVideo(data)">
-          <img class="episode-list-video-thumbnail" [src]="data.URL.thumbnail">
-        </a>
-      </span>
-      <span class="episode-list-details-wrapper">
-        <div class="playlist-text-content">
+  <!-- <div class="episode-video-heading-bar-wrapper"> -->
+  <div class="episode-video-heading-bar">
+    <div class="episode-video-heading-bar-text">
+      Episode Videos
+    </div>
+  </div>
+  <!-- </div> -->
+  <div class="episode-video-list-wrapper">
+    <mat-card class="episode-video-cards" *ngFor="let data of episodeVideoList ">
+      <mat-card-content>
+        <span class="episode-list-thumbnail-wrapper">
           <a (click)="playVideo(data)">
-            <h2 class="video-name">{{ data.name}}</h2>
+            <img class="episode-list-video-thumbnail" [src]="data.URL.thumbnail">
           </a>
-          <!-- <span>{{data.description}}</span> -->
-          <div class="video-details-strip">
-            <span>Added {{timeDifference(data.addedOn)}} ago</span>
-            <span class="episode-video-details-element">Added by: {{data.addedBy.name}}</span>
-            <span class="episode-video-details-element" *ngIf="data.likes.likes === 1 || data.likes.likes === 0">
-              {{data.likes.likes}} like
-            </span>
-            <span class="episode-video-details-element" *ngIf="data.likes.likes > 1">
-              {{data.likes.likes}} likes
-            </span>
-            <span class="episode-video-details-element" *ngIf="data.views === 1 || data.views === 0">
-              {{data.views}} view
-            </span>
-            <span class="episode-video-details-element" *ngIf="data.views > 1">
-              {{data.views}} views
-            </span>
+        </span>
+        <span class="episode-list-details-wrapper">
+          <div class="playlist-text-content">
+            <a (click)="playVideo(data)">
+              <h2 class="video-name">{{ data.name}}</h2>
+            </a>
+            <!-- <span>{{data.description}}</span> -->
+            <div class="video-details-strip">
+              <span>Added {{timeDifference(data.addedOn)}} ago</span>
+              <span class="episode-video-details-element">Added by: {{data.addedBy.name}}</span>
+              <span class="episode-video-details-element" *ngIf="data.likes.likes === 1 || data.likes.likes === 0">
+                {{data.likes.likes}} like
+              </span>
+              <span class="episode-video-details-element" *ngIf="data.likes.likes > 1">
+                {{data.likes.likes}} likes
+              </span>
+              <span class="episode-video-details-element" *ngIf="data.views === 1 || data.views === 0">
+                {{data.views}} view
+              </span>
+              <span class="episode-video-details-element" *ngIf="data.views > 1">
+                {{data.views}} views
+              </span>
+            </div>
           </div>
-        </div>
-      </span>
-    </mat-card-content>
-  </mat-card>
+        </span>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>
 <!-- Main Video Ends -->
 
@@ -162,116 +170,135 @@
     </mat-card-content>
   </mat-card>
   <br><br>
-  <div *ngIf="nextEpisodes">
-    Next Episodes
-    <mat-card class="episode-video-cards" *ngFor="let data of nextEpisodes ">
-      <mat-card-content>
-        <span class="episode-list-thumbnail-wrapper">
-          <a (click)="playVideo(data)">
-            <img class="episode-list-video-thumbnail" [src]="data.URL.thumbnail">
-          </a>
-        </span>
-        <span class="episode-list-details-wrapper">
-          <div class="playlist-text-content">
+  <div *ngIf="nextEpisodes.length">
+    <div class="episode-video-heading-bar">
+      <div class="episode-video-heading-bar-text">
+        Coming up next
+      </div>
+    </div>
+    <div class="episode-video-list-wrapper">
+      <mat-card class="episode-video-cards" *ngFor="let data of nextEpisodes ">
+        <mat-card-content>
+          <span class="episode-list-thumbnail-wrapper">
             <a (click)="playVideo(data)">
-              <h2 class="video-name">{{ data.name}}</h2>
+              <img class="episode-list-video-thumbnail" [src]="data.URL.thumbnail">
             </a>
-            <!-- <span>{{data.description}}</span> -->
-            <div class="video-details-strip">
-              <span>Added {{timeDifference(data.addedOn)}} ago</span>
-              <span class="episode-video-details-element">Added by: {{data.addedBy.name}}</span>
-              <span class="episode-video-details-element" *ngIf="data.likes.likes === 1 || data.likes.likes === 0">
-                {{data.likes.likes}} like
-              </span>
-              <span class="episode-video-details-element" *ngIf="data.likes.likes > 1">
-                {{data.likes.likes}} likes
-              </span>
-              <span class="episode-video-details-element" *ngIf="data.views === 1 || data.views === 0">
-                {{data.views}} view
-              </span>
-              <span class="episode-video-details-element" *ngIf="data.views > 1">
-                {{data.views}} views
-              </span>
+          </span>
+          <span class="episode-list-details-wrapper">
+            <div class="playlist-text-content">
+              <a (click)="playVideo(data)">
+                <h2 class="video-name">{{ data.name}}</h2>
+              </a>
+              <!-- <span>{{data.description}}</span> -->
+              <div class="video-details-strip">
+                <span>Added {{timeDifference(data.addedOn)}} ago</span>
+                <span class="episode-video-details-element">Added by: {{data.addedBy.name}}</span>
+                <span class="episode-video-details-element" *ngIf="data.likes.likes === 1 || data.likes.likes === 0">
+                  {{data.likes.likes}} like
+                </span>
+                <span class="episode-video-details-element" *ngIf="data.likes.likes > 1">
+                  {{data.likes.likes}} likes
+                </span>
+                <span class="episode-video-details-element" *ngIf="data.views === 1 || data.views === 0">
+                  {{data.views}} view
+                </span>
+                <span class="episode-video-details-element" *ngIf="data.views > 1">
+                  {{data.views}} views
+                </span>
+              </div>
             </div>
-          </div>
-        </span>
-      </mat-card-content>
-    </mat-card>
+          </span>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
   </div>
   <br><br>
-  <div *ngIf="previousEpisodes">
-    Previous Episodes
-    <mat-card class="episode-video-cards" *ngFor="let data of previousEpisodes ">
-      <mat-card-content>
-        <span class="episode-list-thumbnail-wrapper">
-          <a (click)="playVideo(data)">
-            <img class="episode-list-video-thumbnail" [src]="data.URL.thumbnail">
-          </a>
-        </span>
-        <span class="episode-list-details-wrapper">
-          <div class="playlist-text-content">
+  <div *ngIf="previousEpisodes.length">
+    <div class="episode-video-heading-bar">
+      <div class="episode-video-heading-bar-text">
+        Previous Episodes
+      </div>
+    </div>
+    <div class="episode-video-list-wrapper">
+      <mat-card class="episode-video-cards" *ngFor="let data of previousEpisodes ">
+        <mat-card-content>
+          <span class="episode-list-thumbnail-wrapper">
             <a (click)="playVideo(data)">
-              <h2 class="video-name">{{ data.name}}</h2>
+              <img class="episode-list-video-thumbnail" [src]="data.URL.thumbnail">
             </a>
-            <!-- <span>{{data.description}}</span> -->
-            <div class="video-details-strip">
-              <span>Added {{timeDifference(data.addedOn)}} ago</span>
-              <span class="episode-video-details-element">Added by: {{data.addedBy.name}}</span>
-              <span class="episode-video-details-element" *ngIf="data.likes.likes === 1 || data.likes.likes === 0">
-                {{data.likes.likes}} like
-              </span>
-              <span class="episode-video-details-element" *ngIf="data.likes.likes > 1">
-                {{data.likes.likes}} likes
-              </span>
-              <span class="episode-video-details-element" *ngIf="data.views === 1 || data.views === 0">
-                {{data.views}} view
-              </span>
-              <span class="episode-video-details-element" *ngIf="data.views > 1">
-                {{data.views}} views
-              </span>
+          </span>
+          <span class="episode-list-details-wrapper">
+            <div class="playlist-text-content">
+              <a (click)="playVideo(data)">
+                <h2 class="video-name">{{ data.name}}</h2>
+              </a>
+              <!-- <span>{{data.description}}</span> -->
+              <div class="video-details-strip">
+                <span>Added {{timeDifference(data.addedOn)}} ago</span>
+                <span class="episode-video-details-element">Added by: {{data.addedBy.name}}</span>
+                <span class="episode-video-details-element" *ngIf="data.likes.likes === 1 || data.likes.likes === 0">
+                  {{data.likes.likes}} like
+                </span>
+                <span class="episode-video-details-element" *ngIf="data.likes.likes > 1">
+                  {{data.likes.likes}} likes
+                </span>
+                <span class="episode-video-details-element" *ngIf="data.views === 1 || data.views === 0">
+                  {{data.views}} view
+                </span>
+                <span class="episode-video-details-element" *ngIf="data.views > 1">
+                  {{data.views}} views
+                </span>
+              </div>
             </div>
-          </div>
-        </span>
-      </mat-card-content>
-    </mat-card>
+          </span>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
   <br><br>
   <div *ngIf="videoPlaylist">
-    Main Video
-    <mat-card class="episode-video-cards">
-      <mat-card-content>
-        <span class="episode-list-thumbnail-wrapper">
-          <a (click)="playVideo(videoPlaylist)">
-            <img class="episode-list-video-thumbnail" [src]="videoPlaylist.URL.thumbnail">
-          </a>
-        </span>
-        <span class="episode-list-details-wrapper">
-          <div class="playlist-text-content">
+    <div class="episode-video-heading-bar">
+      <div class="episode-video-heading-bar-text">
+        Main Video
+      </div>
+    </div>
+    <div class="episode-video-list-wrapper">
+      <mat-card class="episode-video-cards">
+        <mat-card-content>
+          <span class="episode-list-thumbnail-wrapper">
             <a (click)="playVideo(videoPlaylist)">
-              <h2 class="video-name"> Intro Video</h2>
-              <h2 class="main-video-name">{{ videoPlaylist.name}}</h2>
+              <img class="episode-list-video-thumbnail" [src]="videoPlaylist.URL.thumbnail">
             </a>
-            <!-- <span>{{data.description}}</span> -->
-            <div class="video-details-strip">
-              <span>Added {{timeDifference(videoPlaylist.addedOn)}} ago</span>
-              <span class="episode-video-details-element">Added by: {{videoPlaylist.addedBy.name}}</span>
-              <span class="episode-video-details-element" *ngIf="videoPlaylist.likes.likes === 1 || videoPlaylist.likes.likes === 0">
-                {{videoPlaylist.likes.likes}} like
-              </span>
-              <span class="episode-video-details-element" *ngIf="videoPlaylist.likes.likes > 1">
-                {{videoPlaylist.likes.likes}} likes
-              </span>
-              <span class="episode-video-details-element" *ngIf="videoPlaylist.views === 1 || videoPlaylist.views === 0">
-                {{videoPlaylist.views}} view
-              </span>
-              <span class="episode-video-details-element" *ngIf="videoPlaylist.views > 1">
-                {{videoPlaylist.views}} views
-              </span>
+          </span>
+          <span class="episode-list-details-wrapper">
+            <div class="playlist-text-content">
+              <a (click)="playVideo(videoPlaylist)">
+                <h2 class="video-name"> Intro Video</h2>
+                <h2 class="main-video-name">{{ videoPlaylist.name}}</h2>
+              </a>
+              <!-- <span>{{data.description}}</span> -->
+              <div class="video-details-strip">
+                <span>Added {{timeDifference(videoPlaylist.addedOn)}} ago</span>
+                <span class="episode-video-details-element">Added by: {{videoPlaylist.addedBy.name}}</span>
+                <span class="episode-video-details-element" *ngIf="videoPlaylist.likes.likes === 1 || videoPlaylist.likes.likes === 0">
+                  {{videoPlaylist.likes.likes}} like
+                </span>
+                <span class="episode-video-details-element" *ngIf="videoPlaylist.likes.likes > 1">
+                  {{videoPlaylist.likes.likes}} likes
+                </span>
+                <span class="episode-video-details-element" *ngIf="videoPlaylist.views === 1 || videoPlaylist.views === 0">
+                  {{videoPlaylist.views}} view
+                </span>
+                <span class="episode-video-details-element" *ngIf="videoPlaylist.views > 1">
+                  {{videoPlaylist.views}} views
+                </span>
+              </div>
             </div>
-          </div>
-        </span>
-      </mat-card-content>
-    </mat-card>
+          </span>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 </div>
 <!-- Selected Episode Video Ends -->

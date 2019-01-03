@@ -88,6 +88,33 @@
 
 
 /* New logic */
+.episode-video-heading-bar-wrapper {
+    /* position: relative; */
+    margin-bottom: 75px;
+}
+.episode-video-heading-bar {
+    border-top: 46px solid #3700b3;
+    border-left: 0px solid transparent;
+    border-right: 39px solid transparent;
+    height: 0;
+    width: 186px;
+    margin-bottom: 18px;
+    position: relative;
+}
+
+.episode-video-heading-bar-text {
+    position: absolute;
+    top: -33px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 45px;
+}
+
+.episode-video-list-wrapper {
+    margin-left: 37px;
+}
+
 .current-video-thumbnail-wrapper {
     display: inline-block;
 }
