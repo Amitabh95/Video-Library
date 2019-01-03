@@ -55,20 +55,20 @@ export class VideoLandingMainComponent implements OnInit {
 
   getAllVideos() {
     this.loaderService.show();
-    const cachedData = JSON.parse(localStorage.getItem('cachedPlaylist'));
-    if (cachedData) {
-      this.allVideoPlaylist = cachedData;
-      this.loaderService.hide();
-    } else {
+    // const cachedData = JSON.parse(localStorage.getItem('cachedPlaylist'));
+    // if (cachedData) {
+    //   this.allVideoPlaylist = cachedData;
+    //   this.loaderService.hide();
+    // } else {
       this.firestoreDB.getAllVideoPlaylist().then((response: any) => {
         this.loaderService.hide();
         this.allVideoPlaylist = response.response;
         this.allVideoPlaylist = this.sortSeries();
-        localStorage.setItem('cachedPlaylist', JSON.stringify(this.allVideoPlaylist));
+        // localStorage.setItem('cachedPlaylist', JSON.stringify(this.allVideoPlaylist));
       }).catch((error) => {
         console.log('Error---> ', error);
       });
-    }
+    // }
   }
 
   timeDifference(timestamp) {
@@ -145,7 +145,7 @@ export class VideoLandingMainComponent implements OnInit {
   }
 
   playVideo(data) {
-    console.log('Play video--> ', data);
+    this.loaderService.show();
     this.router.navigate(['/player'], { queryParams: { videoID: data.videoID } });
   }
 }
