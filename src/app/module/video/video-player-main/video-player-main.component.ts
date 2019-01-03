@@ -4,6 +4,7 @@ import { FirestoreDatabaseService } from 'src/app/shared/services/firebase/fires
 import { EmbedVideoService } from 'ngx-embed-video';
 import { MatDialog } from '@angular/material';
 import { MaterialDialogComponent } from '../../shared-components/material-dialog/material-dialog.component';
+import { MaterialLoaderServeService } from 'src/app/common-custom-modules/material-loader/material-loader.module';
 
 @Component({
   selector: 'app-video-player-main',
@@ -40,7 +41,8 @@ export class VideoPlayerMainComponent implements OnInit, OnDestroy {
     private router: Router,
     private firestoreDB: FirestoreDatabaseService,
     private embedVideo: EmbedVideoService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private materialLoader: MaterialLoaderServeService
   ) {
     this.isEpisode = false;
     this.isVideoPlayedFirstTime = true;
@@ -61,6 +63,13 @@ export class VideoPlayerMainComponent implements OnInit, OnDestroy {
     if (containDashAt === -1) {
       this.isEpisode = false;
       this.firestoreDB.getVideoPlaylist(videoID).then((result: any) => {
+        this.materialLoader.getStatus().subscribe((loaderStatus: any) => {
+          setTimeout(() => {
+            if (loaderStatus.show === true) {
+              this.materialLoader.hide();
+            }
+          }, 500);
+        });
         if (!result.error) {
           this.videoPlaylist = result.response;
           this.videoLikes = this.videoPlaylist.likes.likes;
