@@ -1,20 +1,102 @@
 <h2>Admin Video Edit / Add</h2>
 <h2 *ngIf="forAddingNewVideo">Add video</h2>
 <h2 *ngIf="!forAddingNewVideo">Edit video</h2>
-<form [formGroup]="addVideoForm">
-    <label>Name: </label>
-    <input formControlName="videoName"><br><br>
-    <label>Description: </label>
-    <input formControlName="videoDescription"><br><br>
-    <label>URL: </label><br>
-    <label>Thumbnail: </label>
-    <input formControlName="videoThumbnailURL"><br><br>
-    <label>Video: </label>
-    <input formControlName="videoVideoURL"><br><br>
-    <label>Genre: </label>
-    <input formControlName="videoGenre"><br><br>
 
-    <label>Episodes:</label>
+<form [formGroup]="addVideoForm">
+    <mat-card class="video-detail-form-card">
+        <div class="mainVideoFieldContainer">
+            <mat-form-field class="videoNameField">
+                <input matInput placeholder="Video Name" formControlName="videoName" required>
+            </mat-form-field>
+
+            <mat-form-field class="videoGenreField">
+                <mat-select placeholder="Video Genre" formControlName="videoGenre" required>
+                    <mat-option *ngFor="let genres of videoGenreList" [value]="genres">
+                        {{genres}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="videoThumbnailUrlField">
+                <input matInput placeholder="Thumbnail URL" formControlName="videoThumbnailURL" required>
+            </mat-form-field>
+
+            <mat-form-field class="videoUrlField">
+                <input matInput placeholder="Video URL" formControlName="videoVideoURL" required>
+            </mat-form-field>
+
+            <mat-form-field class="videoDescriptionField">
+                <textarea matInput placeholder="Description" formControlName="videoDescription" required></textarea>
+            </mat-form-field>
+        </div>
+    </mat-card>
+    <div class="addEpisodeButtonWrapper" *ngIf="!isEpisodePresent">
+        <button mat-button class="addEpisodeButton" (click)="addNewInputField()">
+            <span class="addEpisodeButtonText">
+                Add Episode
+            </span>
+            <span class="addSignText">
+                +
+            </span>
+        </button>
+    </div>
+    <div class="episodeVideoCardWrapper">
+        <div formArrayName="videoEpisodeArray">
+            <mat-card class="episodeVideoCard" *ngFor="let data of addVideoForm.get('videoEpisodeArray').controls; let i = index">
+                <div class="episodeVideoCardContentWrapper" [formGroupName]="i">
+                    <span>
+                        <span class="number-box">
+                            <div class="number-text">{{i + 1}}</div>
+                        </span>
+                        <span class="episode-video-fields">
+                            <mat-form-field class="videoNameField">
+                                <input matInput placeholder="Episode Video Name" formControlName="episodeName" required>
+                            </mat-form-field>
+                            <br>
+                            <mat-form-field class="episodeThumbnailUrlField">
+                                <input matInput placeholder="Episode Thumbnail URL" formControlName="episodeThumbnailURL"
+                                    required>
+                            </mat-form-field>
+
+                            <mat-form-field class="episodeVideoUrlField">
+                                <input matInput placeholder="Episode Video URL" formControlName="episodeVideoURL"
+                                    required>
+                            </mat-form-field>
+
+                            <mat-form-field class="episodeDescriptionField">
+                                <textarea matInput placeholder="Description" formControlName="episodeDescription"
+                                    required></textarea>
+                            </mat-form-field>
+                        </span>
+                        <span class="button-box">
+                            <div class="close-button" (click)="removeInputField(i)">X</div>
+                            <div class="add-button-in-box" (click)="addNewInputField()">
+                                +
+                            </div>
+                        </span>
+                    </span>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+    <div class="save-video-button-wrapper">
+        <button *ngIf="forAddingNewVideo" mat-button class="save-video-button" (click)="addNewVideo()" [disabled]="addVideoForm.invalid">
+            <div class="save-video-button-text">
+                Save Video
+            </div>
+        </button>
+        <button mat-button class="save-video-button" *ngIf="!forAddingNewVideo" (click)="editVideo()" [disabled]="addVideoForm.invalid">
+            <div class="save-video-button-text">
+                Save Video
+            </div>
+        </button>
+    </div>
+
+
+
+
+
+    <!-- <label>Episodes:</label>
     <button (click)="addNewInputField()">Add Episode</button>
     <div formArrayName="videoEpisodeArray">
         <div *ngFor="let data of addVideoForm.get('videoEpisodeArray').controls; let i = index">
@@ -37,7 +119,7 @@
         </div>
     </div><br><br><br>
     <button *ngIf="forAddingNewVideo" type="button" (click)="addNewVideo()">Add New Playlist</button>
-    <button *ngIf="!forAddingNewVideo" type="button" (click)="editVideo()">Edit Playlist</button>
+    <button *ngIf="!forAddingNewVideo" type="button" (click)="editVideo()">Save Playlist</button>
 </form>
-<br><br>
-<button (click)="addDummyData()">Add Dummy Data</button>
+<br><br> -->
+    <!-- <button (click)="addDummyData()">Add Dummy Data</button> -->
