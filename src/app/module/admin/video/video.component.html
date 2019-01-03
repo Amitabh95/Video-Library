@@ -4,6 +4,9 @@
 
 <form [formGroup]="addVideoForm">
     <mat-card class="video-detail-form-card">
+        <div class="main-video-title-bar-wrapper">
+            <div class="main-video-title-text">Main Video</div>
+        </div>
         <div class="mainVideoFieldContainer">
             <mat-form-field class="videoNameField">
                 <input matInput placeholder="Video Name" formControlName="videoName" required>
