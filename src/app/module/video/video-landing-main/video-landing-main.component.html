@@ -1,33 +1,6 @@
 <button (click)="signOut()">Logout</button><br><br><br>
 
-<!-- <div class="playlist-container" *ngIf="allVideoPlaylist && withoutMaterialBoolean">
-  <div class="video-card" *ngFor="let data of allVideoPlaylist ">
-    <span>
-      <a (click)="playVideo(data)">
-        <img class="video-thumbnail" [src]="data.URL.thumbnail" width="200px">
-      </a>
-      <div class="playlist-text-content">
-        <a (click)="playVideo(data)">
-          <h2 class="video-name">{{ data.name}}</h2>
-        </a>
-        <span>{{data.description}}</span>
-        <div class="video-details-strip">
-          <span>Added {{timeDifference(data.addedOn)}} ago</span>
-          <span class="playlist-episode" *ngIf="calculateEpisodes(data.episode) !== 0">{{calculateEpisodes(data.episode)}}</span>
-          <span class="playlist-episode">Added by: {{data.addedBy.name}}</span>
-          <span class="playlist-episode">{{data.likes.likes}} likes</span>
-          <span class="playlist-episode">{{data.views}} views</span>
-          <span class="playlist-episode">Genre: {{data.genre}}</span>
-        </div>
-      </div>
-    </span>
-  </div>
-  <div>
-
-  </div>
-</div> -->
-
-<div *ngIf="allVideoPlaylist && materialBoolean">
+<div *ngIf="allVideoPlaylist && materialBoolean" class="videoPlaylistWrapper">
   <mat-card class="material-video-card" *ngFor="let data of allVideoPlaylist">
     <!-- <span> -->
       <div (click)="playVideo(data)" class="material-video-card-thumbnail">
