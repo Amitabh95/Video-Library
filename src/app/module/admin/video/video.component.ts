@@ -5,6 +5,7 @@ import { StorageService } from 'src/app/shared/services/storage/storage.service'
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { videoGenres } from '../../../mainConfigFile';
+import { MaterialLoaderServeService } from 'src/app/common-custom-modules/material-loader/material-loader.module';
 
 @Component({
   selector: 'app-video',
@@ -30,7 +31,8 @@ export class VideoComponent implements OnInit {
     private formBuilder: FormBuilder,
     private storage: StorageService,
     private toasterAlert: ToastrService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private materialLoader: MaterialLoaderServeService
   ) {
     this.videoGenreList = videoGenres;
     this.addVideoForm = this.formBuilder.group({
@@ -54,6 +56,14 @@ export class VideoComponent implements OnInit {
           this.videoIDForEditing = params['videoID'];
           console.log('Video id---> ', this.videoIDForEditing);
           this.firestoreDB.getVideoPlaylist(this.videoIDForEditing).then((result: any) => {
+
+            this.materialLoader.getStatus().subscribe((loaderStatus: any) => {
+              setTimeout(() => {
+                if (loaderStatus.show === true) {
+                  this.materialLoader.hide();
+                }
+              }, 500);
+            });
             if (!result.error) {
               this.videoDataForEditing = result.response;
               console.log('Video for editing---> ', this.videoDataForEditing);
