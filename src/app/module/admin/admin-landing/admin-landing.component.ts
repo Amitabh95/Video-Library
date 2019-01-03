@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirestoreDatabaseService } from 'src/app/shared/services/firebase/firestoreDatabase/firestore-database.service';
 import { ToastrService } from 'ngx-toastr';
+import { MaterialLoaderServeService } from 'src/app/common-custom-modules/material-loader/material-loader.module';
 
 @Component({
   selector: 'app-admin-landing',
@@ -14,7 +15,8 @@ export class AdminLandingComponent implements OnInit {
   constructor(
     private router: Router,
     private firestoreDB: FirestoreDatabaseService,
-    private toasterAlert: ToastrService) {
+    private toasterAlert: ToastrService,
+    private materialLoader: MaterialLoaderServeService) {
   }
 
   ngOnInit() {
@@ -26,6 +28,7 @@ export class AdminLandingComponent implements OnInit {
   }
 
   editVideo(videoID) {
+    this.materialLoader.show();
     this.router.navigate(['/admin/video'], { queryParams: { newVideo: false, videoID: videoID }});
   }
 
