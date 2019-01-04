@@ -11,7 +11,7 @@ import { MaterialLoaderModule, MaterialLoaderServeService } from 'src/app/common
 })
 export class VideoLandingMainComponent implements OnInit {
   allVideoPlaylist: any[] = [];
-
+  pageName = 'Video Playlist';
   // remove this
   materialBoolean: boolean;
   withoutMaterialBoolean: boolean;
@@ -38,19 +38,6 @@ export class VideoLandingMainComponent implements OnInit {
 
   material() {
     this.materialBoolean = !this.materialBoolean;
-  }
-
-  signOut() {
-    this.authService.signOut().then((logoutValue) => {
-      console.log('Logout Value--->', logoutValue);
-      this.authService.checkLoginStatus()
-        .then((value) => {
-          this.router.navigateByUrl('/login');
-          console.log('Login status after logout---> ', value);
-        });
-    }).catch((error) => {
-      console.log('Logout error--> ', error);
-    });
   }
 
   getAllVideos() {
@@ -130,7 +117,7 @@ export class VideoLandingMainComponent implements OnInit {
   }
 
   sortSeries() {
-    let tempArray = JSON.parse(JSON.stringify(this.allVideoPlaylist));
+    const tempArray = JSON.parse(JSON.stringify(this.allVideoPlaylist));
     return tempArray.sort(this.compare);
   }
 

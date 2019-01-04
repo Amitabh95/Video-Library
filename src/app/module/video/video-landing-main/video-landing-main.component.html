@@ -1,4 +1,4 @@
-<button (click)="signOut()">Logout</button><br><br><br>
+<app-header [pageName]="pageName"></app-header>
 
 <div *ngIf="allVideoPlaylist && materialBoolean" class="videoPlaylistWrapper">
   <mat-card class="material-video-card" *ngFor="let data of allVideoPlaylist">
