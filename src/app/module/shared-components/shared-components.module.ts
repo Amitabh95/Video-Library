@@ -4,9 +4,13 @@ import { SharedComponentsRoutingModule } from './shared-components-routing.modul
 import { MaterialDialogComponent } from './material-dialog/material-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialCoreModule } from 'src/app/material.module';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 @NgModule({
-  declarations: [MaterialDialogComponent],
-  entryComponents: [MaterialDialogComponent],
+  declarations: [
+    // MaterialDialogComponent,
+     HeaderComponent, FooterComponent],
+  // entryComponents: [MaterialDialogComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -14,7 +18,10 @@ import { MaterialCoreModule } from 'src/app/material.module';
     SharedComponentsRoutingModule,
     MaterialCoreModule
   ],
-  exports: [],
+  exports: [
+    HeaderComponent,
+    FooterComponent
+  ],
   providers: []
 })
 export class SharedComponentsModule { }
