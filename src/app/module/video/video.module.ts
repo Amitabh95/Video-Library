@@ -7,6 +7,7 @@ import { VideoRoutingModule } from './video-routing.module';
 import { VideoLandingMainComponent } from './video-landing-main/video-landing-main.component';
 import { VideoPlayerMainComponent } from './video-player-main/video-player-main.component';
 import { MaterialCoreModule } from 'src/app/material.module';
+import { SharedComponentsModule } from '../shared-components/shared-components.module';
 
 @NgModule({
   declarations: [VideoLandingMainComponent, VideoPlayerMainComponent],
@@ -14,7 +15,8 @@ import { MaterialCoreModule } from 'src/app/material.module';
     YoutubePlayerModule,
     CommonModule,
     VideoRoutingModule,
-    MaterialCoreModule
+    MaterialCoreModule,
+    SharedComponentsModule
   ],
   providers: [EmbedVideoService]
 })
