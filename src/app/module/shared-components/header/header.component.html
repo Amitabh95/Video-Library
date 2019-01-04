@@ -1,0 +1,18 @@
+<div class="header-bar">
+  <div class="header-bar-heading">
+    Video Library
+  </div>
+  <div class="button-wrapper">
+    <img class="menu-button" src="../../../../assets/img/menu-button.png" mat-button [matMenuTriggerFor]="menu" />
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="navigateTo('admin')">Admin Panel</button>
+      <button mat-menu-item (click)="navigateTo('/')">Playlist</button>
+    </mat-menu>
+    <img class="logout-button" (click)="logout()" src="../../../../assets/img/logout-button.png" />
+  </div>
+  <div class="pageNameWrapper">
+    <span class="pageName">
+      {{pageName}}
+    </span>
+  </div>
+</div>

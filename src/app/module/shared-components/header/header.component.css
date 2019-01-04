@@ -1,0 +1,50 @@
+.header-bar {
+    background-color: #3700b3;
+    width: 101%;
+    height: 101px;
+    margin-top: -7px;
+    margin-left: -8px;
+    position: relative;
+}
+
+.header-bar-heading {
+    color: white;
+    font-weight: bold;
+    font-size: 33px;
+    position: absolute;
+    top: 32px;
+    left: 87px;
+}
+
+.logout-button {
+    position: relative;
+}
+
+.logout-button {
+    position: absolute;
+    width: 34px;
+    top: 30px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.menu-button {
+    position: absolute;
+    width: 43px;
+    top: 29px;
+    left: 14px;
+}
+
+.pageNameWrapper {
+    margin: 0px auto;
+    width: 50%;
+}
+
+.pageName {
+    position: absolute;
+    color: white;
+    font-weight: bold;
+    top: 64px;
+    left: 732px;
+    font-size: 25px;
+}
