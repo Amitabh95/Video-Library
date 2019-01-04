@@ -35,6 +35,7 @@ export class VideoPlayerMainComponent implements OnInit, OnDestroy {
   thumbnail: string;
   previousEpisodes: any[] = [];
   nextEpisodes: any[] = [];
+  pageName = 'Video Player';
 
   constructor(
     private route: ActivatedRoute,
