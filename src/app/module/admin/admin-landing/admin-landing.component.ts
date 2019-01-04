@@ -11,6 +11,7 @@ import { MaterialLoaderServeService } from 'src/app/common-custom-modules/materi
 })
 export class AdminLandingComponent implements OnInit {
   allVideo: any[] = [];
+  pageName = 'Admin Dashboard';
 
   constructor(
     private router: Router,
