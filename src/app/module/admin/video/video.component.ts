@@ -25,6 +25,7 @@ export class VideoComponent implements OnInit {
   videoDataForEditing: any;
   videoGenreList: any;
   videoEpisodeArrayLength: number;
+  pageName: string;
 
   constructor(
     private firestoreDB: FirestoreDatabaseService,
@@ -52,6 +53,7 @@ export class VideoComponent implements OnInit {
       .subscribe(params => {
         this.forAddingNewVideo = JSON.parse(params['newVideo']);
         if (!this.forAddingNewVideo) {
+          this.pageName = 'Edit Video Playlist';
           console.log('For editing');
           this.videoIDForEditing = params['videoID'];
           console.log('Video id---> ', this.videoIDForEditing);
@@ -72,6 +74,8 @@ export class VideoComponent implements OnInit {
           }).catch(error => {
             console.log('Error--> ', error);
           });
+        } else {
+          this.pageName = 'Add New Video Playlist';
         }
         // this.getPlaylist(this.videoID);
       });
