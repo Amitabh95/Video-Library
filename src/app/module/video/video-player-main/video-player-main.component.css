@@ -88,6 +88,10 @@
 
 
 /* New logic */
+.content-wrapper {
+    margin-top: 45px;
+}
+
 .episode-video-heading-bar-wrapper {
     /* position: relative; */
     margin-bottom: 75px;
@@ -216,4 +220,10 @@
 .like-button {
     background-color: #3700b3;
     position: relative;
+    margin-left: 22px;
 }
+
+.likeButtonText {
+    color: white;
+    font-weight: bold;
+} 
