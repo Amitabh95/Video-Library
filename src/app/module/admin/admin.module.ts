@@ -5,6 +5,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { AdminLandingComponent } from './admin-landing/admin-landing.component';
 import { VideoComponent } from './video/video.component';
 import { MaterialCoreModule } from 'src/app/material.module';
+import { SharedComponentsModule } from '../shared-components/shared-components.module';
 
 @NgModule({
   declarations: [AdminLandingComponent, VideoComponent],
@@ -13,7 +14,8 @@ import { MaterialCoreModule } from 'src/app/material.module';
     AdminRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialCoreModule
+    MaterialCoreModule,
+    SharedComponentsModule
   ]
 })
 export class AdminModule { }
